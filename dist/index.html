@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Spotlight</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+       body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: transparent;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            pointer-events: none;
+        }
+
+        .spotlight-container {
+            width: 100%;
+            max-width: 600px;
+            background-image: radial-gradient(ellipse at bottom, rgba(27, 30, 33, .9) 0%, rgba(27, 30, 33, .9) 70%, rgba(27, 30, 33, .8) 100%);
+            border: 1px solid rgba(128, 136, 150, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(10, 14, 20, 0.5);
+            transform: scale(0.8) translateY(-20px);
+            opacity: 0;
+            animation: spotlightAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            overflow: visible;
+            transition: .2s;
+            position: relative;
+            pointer-events: auto;
+            background-color: rgb(62 67 72 / 53%);
+        }
+
+        .spotlight-container:hover {
+            background-color: rgba(26, 79, 132, 0.9);
+            box-shadow: 0 20px 60px rgba(17, 26, 40, 0.5);
+            border: 1px solid rgba(133, 177, 255, 0.2);
+        }
+
+        @keyframes spotlightAppear {
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px 0;
+        }
+
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .speed-indicator {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .search-container {
+            position: relative;
+            padding: 20px;
+            app-region: drag;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            app-region: drag;
+        }
+
+        .search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 24px;
+            font-weight: 300;
+            padding: 15px 20px 15px 50px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .loading-indicator {
+            display: none;
+            padding: 0 20px 10px;
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
+            height: 30px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: loadingPulse 1.4s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes loadingPulse {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .response-container {
+            max-height: 0;
+            overflow-y: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0);
+            border-radius: 0 0 16px 16px;
+            /* transform: translateY(1px); */
+            transition: 0.2s;
+            display: flex;
+        }
+
+        .response-container.visible {
+            max-height: 400px;
+            box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .response-content {
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: responseAppear 0.5s ease 0.2s forwards;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+        @keyframes responseAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .settings-panel {
+            position: absolute;
+            top: calc(100% + 16px);
+            left: 0;
+            right: 0;
+            background: rgba(27, 30, 33, 0.95);
+            border: 1px solid rgba(128, 136, 150, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(20px);
+            z-index: 10;
+        }
+
+        .settings-panel.visible {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .settings-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            min-width: 120px;
+        }
+
+        .settings-input {
+            background: rgb(143 143 143 / 10%);
+            border: 1px solid rgb(120 120 120 / 20%);
+            border-radius: 6px;
+            color: white;
+            padding: 6px 10px;
+            font-size: 12px;
+            width: 200px;
+        }
+
+        .settings-input:focus {
+            outline: none;
+            border-color: rgba(133, 177, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .settings-textarea {
+            width: 100%;
+            height: 60px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 20px 20px;
+            font-size: 14px;
+        }
+
+        .speed-indicator {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+
+        .settings-button {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+            cursor: pointer;
+            transition: .2s;
+            user-select: none;
+        }
+
+        .settings-button:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Scrollbar styling */
+        .response-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .response-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border: 15px solid transparent;
+        }
+
+        .response-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .response-content::-webkit-scrollbar {
+            width: 18px;
+        }
+
+        .response-content::-webkit-scrollbar-track {
+            background: rgb(39 43 45);
+            box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .response-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border: 6px solid rgb(39 43 45);
+            border-radius: 18px;
+        }
+        /* rgb(39 43 45) */
+
+        .switch {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .switch input[type="checkbox"] {
+            display: none;
+        }
+
+        .switch .slider {
+            position: relative;
+            width: 36px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .switch .slider:before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .switch input[type="checkbox"]:checked + .slider {
+            background-color: rgba(47, 108, 159, 0.8);
+        }
+
+        .switch input[type="checkbox"]:checked + .slider:before {
+            transform: translateX(16px);
+        }
+    </style>
+</head>
+<body>
+    <div class="spotlight-container">
+
+        <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-tauri-drag-region>
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input 
+                type="text" 
+                class="search-input" 
+                placeholder="Спросите что-нибудь..."
+                id="searchInput"
+                autocomplete="off"
+            >
+            <div class="settings-button" id="settingsBtn">⚙️ Настройки</div>
+        </div>
+
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-row">
+                <label class="settings-label">Модель:</label>
+                <input type="text" class="settings-input" id="modelName" value="yandexgpt-5-lite-8b-instruct" placeholder="Название модели" list="models">
+                <datalist id="models">
+                </datalist>
+            </div>
+            <div class="settings-row">
+                <label class="settings-label">Макс. токенов:</label>
+                <input type="number" class="settings-input" id="maxTokens" value="1000" min="100" max="4000">
+            </div>
+            <div class="settings-row">
+                <label class="settings-label">Температура:</label>
+                <input type="number" class="settings-input" id="temperature" value="0.7" min="0" max="2" step="0.1">
+            </div>
+            <div class="settings-row" style="display:none;">
+                <label class="settings-label">API URL:</label>
+                <input type="text" class="settings-input" id="apiUrl" value="http://localhost:1234/v1/chat/completions">
+            </div>
+            <div class="settings-row">
+                <label class="settings-label">Системный промпт:</label>
+                <label class="switch">
+                    By User
+                    <input type="checkbox" id="systemPromptSwitcher">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <textarea class="settings-input settings-textarea" id="systemPrompt" placeholder="Ты полезный AI ассистент..."></textarea>
+        </div>
+        
+        <div class="loading-indicator" id="loadingIndicator">
+            <div class="loading-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="response-container" id="responseContainer">
+            <div class="response-content">
+                <div id="responseContent"></div>
+                <div class="speed-indicator" id="speedIndicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SpotlightApp {
+            constructor() {
+                this.searchInput = document.getElementById('searchInput');
+                this.loadingIndicator = document.getElementById('loadingIndicator');
+                this.responseContainer = document.getElementById('responseContainer');
+                this.responseContent = document.getElementById('responseContent');
+                this.settingsBtn = document.getElementById('settingsBtn');
+                this.settingsPanel = document.getElementById('settingsPanel');
+                this.speedIndicator = document.getElementById('speedIndicator');
+
+                this.response = ``;
+                
+                this.isLoading = false;
+                this.settingsVisible = false;
+                this.startTime = null;
+
+                this.loadSettings();
+                this.init();
+            }
+
+            init() {
+                this.searchInput.focus();
+                this.setupEventListeners();
+                this.setupKeyboardShortcuts();
+            }
+
+            loadSettings() {
+                // Load settings from memory (since we can't use localStorage)
+                this.settings = {
+                    model: document.getElementById('modelName').value,
+                    maxTokens: parseInt(document.getElementById('maxTokens').value),
+                    temperature: parseFloat(document.getElementById('temperature').value),
+                    apiUrl: document.getElementById('apiUrl').value,
+                    systemPrompt: document.getElementById('systemPrompt').value,
+                    systemPromptSwitcher: document.getElementById('systemPromptSwitcher').checked
+                };
+
+                this.loadSettingsFromLocalStorage();
+                this.setupInputsBySettings();
+            }
+
+            setupInputsBySettings() {
+                document.getElementById('modelName').value = this.settings.model;
+                document.getElementById('maxTokens').value = this.settings.maxTokens;
+                document.getElementById('temperature').value = this.settings.temperature;
+                document.getElementById('apiUrl').value = this.settings.apiUrl;
+                document.getElementById('systemPrompt').value = this.settings.systemPrompt;
+                document.getElementById('systemPromptSwitcher').checked = this.settings.systemPromptSwitcher;
+            }
+
+            loadSettingsFromLocalStorage() {
+                const savedSettings = localStorage.getItem('spotlight-settings');
+                if (savedSettings) {
+                    this.settings = JSON.parse(savedSettings);
+                }
+                console.log(savedSettings);
+            }
+
+            saveSettings() {
+                this.settings = {
+                    model: document.getElementById('modelName').value,
+                    maxTokens: parseInt(document.getElementById('maxTokens').value),
+                    temperature: parseFloat(document.getElementById('temperature').value),
+                    apiUrl: document.getElementById('apiUrl').value,
+                    systemPrompt: document.getElementById('systemPrompt').value,
+                    systemPromptSwitcher: document.getElementById('systemPromptSwitcher').checked
+                };
+
+                this.saveSettingsToLocalStorage();
+            }
+
+            
+            saveSettingsToLocalStorage() {
+                localStorage.setItem('spotlight-settings', JSON.stringify(this.settings));
+            }
+
+            setupEventListeners() {
+                this.searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !this.isLoading) {
+                        this.handleSearch();
+                    }
+                });
+
+                this.settingsBtn.addEventListener('click', () => {
+                    this.toggleSettings();
+                });
+
+                // Auto-save settings on change
+                ['modelName', 'maxTokens', 'temperature', 'apiUrl', 'systemPrompt'].forEach(id => {
+                    document.getElementById(id).addEventListener('change', () => {
+                        this.saveSettings();
+                    });
+                });
+
+                // Clear response when input is cleared
+                this.searchInput.addEventListener('input', () => {
+                    if (!this.searchInput.value.trim() && this.responseContainer.classList.contains('visible')) {
+                        this.hideResponse();
+                    }
+                });
+            }
+
+            setupKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        if (this.settingsVisible) {
+                            this.toggleSettings();
+                        } else {
+                            this.closeApp();
+                        }
+                    }
+                });
+            }
+
+            toggleSettings() {
+                this.settingsVisible = !this.settingsVisible;
+                this.settingsPanel.classList.toggle('visible', this.settingsVisible);
+                
+                if (this.settingsVisible) {
+                    this.resizeWindow(550);
+                    this.hideResponse();
+                } else {
+                    const hasResponse = this.responseContainer.classList.contains('visible');
+                    if(this.response) {
+                        this.showResponse(this.response);
+                    }
+                    this.resizeWindow(hasResponse ? 450 : 200);
+                }
+            }
+
+            async handleSearch() {
+                const query = this.searchInput.value.trim();
+                if (!query) return;
+
+                this.showLoading();
+                this.startTime = Date.now();
+                
+                try {
+                    const response = await this.queryLMStudio(query);
+                    const responseTime = Date.now() - this.startTime;
+                    this.showResponse(response);
+                    this.showSpeed(responseTime, response.length);
+                } catch (error) {
+                    this.showError(error.message);
+                    this.speedIndicator.textContent = 'Ошибка';
+                }
+            }
+
+            async queryLMStudio(message) {
+                this.saveSettings(); // Ensure latest settings are used
+
+                const messages = [];
+                
+                // Add system prompt if provided
+                if (this.settings.systemPrompt.trim()) {
+                    messages.push({
+                        role: this.settings.systemPromptSwitcher ? "user" : "system",
+                        content: this.settings.systemPrompt.trim()
+                    });
+                }
+                
+                messages.push({
+                    role: "user",
+                    content: message
+                });
+
+                console.log(messages);
+
+                const requestBody = {
+                    model: this.settings.model,
+                    messages: messages,
+                    temperature: this.settings.temperature,
+                    max_tokens: this.settings.maxTokens,
+                    stream: false
+                };
+
+                try {
+                    const response = await fetch(this.settings.apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error('LM Studio не запущен или API недоступен');
+                        }
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+
+                } catch (error) {
+                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                        throw new Error('Невозможно подключиться к LM Studio. Убедитесь, что сервер запущен');
+                    }
+                    throw error;
+                }
+            }
+
+            showLoading() {
+                this.isLoading = true;
+                this.loadingIndicator.style.display = 'block';
+                this.speedIndicator.textContent = 'Думаю...';
+                this.hideResponse();
+            }
+
+            hideLoading() {
+                this.isLoading = false;
+                this.loadingIndicator.style.display = 'none';
+            }
+
+            showResponse(text) {
+                this.hideLoading();
+
+                if (this.settingsVisible) {
+                    this.toggleSettings();
+                }
+                
+                this.response = this.formatResponse(text);
+                this.responseContent.innerHTML = this.response;
+                
+                this.responseContainer.classList.add('visible');
+                
+                // Reset animation
+                this.responseContent.style.animation = 'none';
+                setTimeout(() => {
+                    this.responseContent.style.animation = 'responseAppear 0.5s ease forwards';
+                }, 10);
+
+                // Auto-resize window
+                this.resizeWindow(this.settingsVisible ? 550 : 450);
+            }
+
+            showError(message) {
+                this.hideLoading();
+                
+                const errorHtml = `<div class="error-message">❌ ${message}</div>`;
+                this.responseContent.innerHTML = errorHtml;
+                this.responseContainer.classList.add('visible');
+                
+                this.resizeWindow(this.settingsVisible ? 550 : 350);
+            }
+
+            hideResponse() {
+                this.responseContainer.classList.remove('visible');
+                this.resizeWindow(this.settingsVisible ? 550 : 200);
+            }
+
+            showSpeed(responseTime, textLength) {
+                const seconds = (responseTime / 1000).toFixed(1);
+                const speed = Math.round(textLength / (responseTime / 1000));
+                this.speedIndicator.textContent = `${seconds}s • ${speed} симв/с`;
+            }
+
+            formatResponse(text) {
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`(.*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/^/, '<p>')
+                    .replace(/$/, '</p>');
+            }
+
+            async resizeWindow(height) {
+                if (window.__TAURI__) {
+                    try {
+                        const { appWindow } = window.__TAURI__.window;
+                        await appWindow.setSize(new window.__TAURI__.window.LogicalSize(700, Math.min(height, 900)));
+                    } catch (error) {
+                        console.log('Resize error:', error);
+                    }
+                }
+            }
+
+            async closeApp() {
+                if (window.__TAURI__) {
+                    try {
+                        const { appWindow } = window.__TAURI__.window;
+                        await appWindow.hide();
+                    } catch (error) {
+                        console.log('Close error:', error);
+                    }
+                } else {
+                    // For browser testing
+                    document.querySelector('.spotlight-container').style.animation = 
+                        'spotlightAppear 0.2s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards';
+                }
+            }
+        }
+
+        // Initialize the app
+        const app = new SpotlightApp();
+
+        // Test connection on load
+        window.addEventListener('load', () => {
+            fetch('http://localhost:1234/v1/models')
+                .then(response => {
+                    if (response.ok) {
+                        response.json().then(data => {
+                            console.log(data)
+                            const datalist = document.getElementById('models');
+                            data.data.forEach(model => {
+                                const option = document.createElement('option');
+                                option.value = model.id;
+                                datalist.appendChild(option);
+                            });
+                        });
+                        console.log('✅ LM Studio подключен');
+                    }
+                })
+                .catch(() => {
+                    console.log('⚠️ LM Studio недоступен');
+                });
+        });
+    </script>
+</body>
+</html>

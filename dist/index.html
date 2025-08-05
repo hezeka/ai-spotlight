@@ -78,9 +78,25 @@
 
         .speed-indicator {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.2);
             min-width: 80px;
             text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .speed-indicator div {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .format-switcher {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .format-switcher:hover {
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .search-container {
@@ -427,7 +443,9 @@
         <div class="response-container" id="responseContainer">
             <div class="response-content">
                 <div id="responseContent"></div>
-                <div class="speed-indicator" id="speedIndicator"></div>
+                <div class="speed-indicator">
+                    <div id="speedIndicator"></div> | <div class="format-switcher" id="formatSwitcher">Raw</div>
+                </div>
             </div>
         </div>
     </div>
@@ -461,7 +479,10 @@
                 this.settingsBtn = document.getElementById('settingsBtn');
                 this.settingsPanel = document.getElementById('settingsPanel');
                 this.speedIndicator = document.getElementById('speedIndicator');
+                this.responseType = 'formatted';
+                this.formatSwitcher = document.getElementById('formatSwitcher');
 
+                this.rawResponse = ``;
                 this.response = ``;
                 
                 this.isLoading = false;
@@ -473,11 +494,15 @@
             }
 
             init() {
-                this.searchInput.focus();
                 this.setupEventListeners();
                 this.setupKeyboardShortcuts();
                 this.setupWindowManagement();
-                this.resizeWindow()
+                this.setupClickOutsideHandler();
+                this.setupWindowFocusHandler();
+                this.resizeWindow();
+                setTimeout(() => {
+        this.focusInput();
+    }, 100);
             }
 
             async setupWindowManagement() {
@@ -590,7 +615,17 @@
                 this.searchInput.addEventListener('input', () => {
                     if (!this.searchInput.value.trim() && this.responseContainer.classList.contains('visible')) {
                         this.hideResponse();
+
+                        this.resizeWindow(700);
+
+                        setTimeout(() => {
+                            this.resizeWindow()
+                        }, 550)
                     }
+                });
+
+                this.formatSwitcher.addEventListener('click', () => {
+                    this.toggleFormat();
                 });
             }
 
@@ -621,8 +656,8 @@
                     await this.invokeCommand('set_window_click_through', { enabled: false });
                 } else {
                     const hasResponse = this.responseContainer.classList.contains('visible');
-                    if(this.response && !this.isLoading) {
-                        this.showResponse(this.response);
+                    if(this.rawResponse && !this.isLoading) {
+                        this.showResponse(this.rawResponse);
                     }
                     this.resizeWindow(700);
 
@@ -737,6 +772,7 @@
                     await this.toggleSettings();
                 }
                 
+                this.rawResponse = text;
                 this.response = this.formatResponse(text);
                 this.responseContent.innerHTML = this.response;
                 
@@ -789,7 +825,16 @@
             }
 
             formatResponse(text) {
-                return text
+                if (this.responseType === 'raw') {
+                    return text
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/\n/g, '<br>');
+                } else if (this.responseType === 'formatted') {
+                    return text
                     .replace(/\n\n/g, '</p><p>')
                     .replace(/\n/g, '<br>')
                     .replace(/```(\w+)?<br>?([\s\S]*?)```/g, (match, language, code) => {
@@ -809,9 +854,21 @@
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/^/, '<p>')
                     .replace(/$/, '</p>');
+                }
+                
             }
 
+            toggleFormat() {
+                if (this.responseType == 'raw') {
+                    this.responseType = 'formatted';
+                    this.formatSwitcher.textContent = 'Raw';
+                } else {
+                    this.responseType = 'raw';
+                    this.formatSwitcher.textContent = 'MD';
+                }
 
+                this.showResponse(this.rawResponse);
+            }
 
 
 
@@ -837,6 +894,152 @@
                 } catch (error) {
                     console.log('Resize error:', error);
                 }
+            }
+
+            setupWindowFocusHandler() {
+                let hideTimeout;
+
+                window.addEventListener('blur', () => {
+                    console.log('🔍 Window lost focus');
+                    
+                    // Очищаем предыдущий таймер
+                    if (hideTimeout) {
+                        clearTimeout(hideTimeout);
+                    }
+                    
+                    // Скрываем окно через небольшую задержку
+                    hideTimeout = setTimeout(() => {
+                        // Проверяем, что окно все еще не в фокусе и настройки не открыты
+                        if (!document.hasFocus() && !this.settingsVisible) {
+                            console.log('👋 Hiding window due to focus loss');
+                            this.closeApp();
+                        }
+                    }, 150);
+                });
+
+                window.addEventListener('focus', () => {
+                    console.log('👁️ Window gained focus');
+                    
+                    // Отменяем скрытие если окно снова получило фокус
+                    if (hideTimeout) {
+                        clearTimeout(hideTimeout);
+                        hideTimeout = null;
+                    }
+                });
+            }
+
+            setupClickOutsideHandler() {
+                document.addEventListener('click', (event) => {
+                    const spotlightContainer = document.querySelector('.spotlight-container');
+                    
+                    if (!spotlightContainer) return;
+                    
+                    // Проверяем, что окно видимо
+                    const isWindowVisible = spotlightContainer.offsetParent !== null;
+                    if (!isWindowVisible) return;
+                    
+                    // Не скрываем если настройки открыты
+                    if (this.settingsVisible) return;
+                    
+                    // Проверяем клик вне контейнера
+                    const isClickInside = spotlightContainer.contains(event.target);
+                    
+                    if (!isClickInside) {
+                        console.log('👆 Click outside detected, hiding window');
+                        this.closeApp();
+                    }
+                });
+            }
+
+            setupWindowFocusHandler() {
+                let hideTimeout;
+                let isWindowShowing = false; // Флаг для отслеживания процесса показа окна
+
+                window.addEventListener('blur', () => {
+                    console.log('🔍 Window lost focus, isWindowShowing:', isWindowShowing);
+                    
+                    // Игнорируем blur если окно только показывается
+                    if (isWindowShowing) {
+                        console.log('⏳ Ignoring blur - window is showing');
+                        return;
+                    }
+                    
+                    // Очищаем предыдущий таймер
+                    if (hideTimeout) {
+                        clearTimeout(hideTimeout);
+                    }
+                    
+                    // Скрываем окно через задержку
+                    hideTimeout = setTimeout(() => {
+                        if (!document.hasFocus() && !this.settingsVisible && !isWindowShowing) {
+                            console.log('👋 Hiding window due to focus loss');
+                            this.closeApp();
+                        }
+                    }, 200);
+                });
+
+                window.addEventListener('focus', () => {
+                    console.log('👁️ Window gained focus');
+                    
+                    // Отменяем скрытие
+                    if (hideTimeout) {
+                        clearTimeout(hideTimeout);
+                        hideTimeout = null;
+                    }
+                    
+                    // Убираем флаг показа окна
+                    isWindowShowing = false;
+                    
+                    // Фокусируем input
+                    setTimeout(() => {
+                        if (this.searchInput && !this.settingsVisible) {
+                            this.searchInput.focus();
+                            console.log('🎯 Input focused after window focus');
+                        }
+                    }, 50);
+                });
+
+                // Метод для установки состояния показа окна  
+                this.setWindowShowing = (showing) => {
+                    isWindowShowing = showing;
+                    console.log('🪟 Window showing state:', showing);
+                    
+                    if (showing && hideTimeout) {
+                        clearTimeout(hideTimeout);
+                        hideTimeout = null;
+                    }
+                };
+            }
+
+            focusInput() {
+                if (!this.searchInput) return;
+                
+                // Устанавливаем флаг показа окна
+                if (this.setWindowShowing) {
+                    this.setWindowShowing(true);
+                }
+                
+                // Немедленная попытка фокуса
+                this.searchInput.focus();
+                
+                // Дополнительные попытки для надежности
+                const focusAttempts = [50, 150, 250];
+                
+                focusAttempts.forEach(delay => {
+                    setTimeout(() => {
+                        if (this.searchInput && !this.settingsVisible) {
+                            this.searchInput.focus();
+                            console.log(`🎯 Input focus attempt at ${delay}ms`);
+                        }
+                    }, delay);
+                });
+                
+                // Убираем флаг через время
+                setTimeout(() => {
+                    if (this.setWindowShowing) {
+                        this.setWindowShowing(false);
+                    }
+                }, 300);
             }
 
             async closeApp() {

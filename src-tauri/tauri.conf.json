@@ -62,7 +62,6 @@
         "minHeight": 200,
         "maxWidth": 660,
         "maxHeight": 900,
-        "center": true,
         "decorations": false,
         "alwaysOnTop": true,
         "skipTaskbar": true,

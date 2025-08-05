@@ -169,25 +169,41 @@ fn main() {
         .expect("error while running tauri application");
 }
 
+use std::sync::atomic::{AtomicBool, Ordering};
+
+// Глобальная переменная для отслеживания первого запуска
+static FIRST_SHOW: AtomicBool = AtomicBool::new(true);
+
 fn toggle_window(app: &AppHandle) {
     let window = app.get_window("main").unwrap();
     if window.is_visible().unwrap() {
         window.hide().unwrap();
         
-        // Enable click-through when hiding
         #[cfg(target_os = "windows")]
         {
             let _ = set_click_through(&window, true);
         }
     } else {
-        // Disable click-through when showing
         #[cfg(target_os = "windows")]
         {
             let _ = set_click_through(&window, false);
         }
         
         window.show().unwrap();
-        window.set_focus().unwrap();
-        window.center().unwrap();
+        
+        // Центрируем только при первом показе
+        if FIRST_SHOW.load(Ordering::Relaxed) {
+            window.center().unwrap();
+            FIRST_SHOW.store(false, Ordering::Relaxed);
+            println!("🎯 Window centered on first show");
+        } else {
+            println!("📍 Window shown at current position");
+        }
+        
+        // Фокус в отдельном потоке
+        std::thread::spawn(move || {
+            std::thread::sleep(std::time::Duration::from_millis(100));
+            let _ = window.set_focus();
+        });
     }
 }

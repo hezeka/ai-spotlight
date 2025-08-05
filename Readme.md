@@ -34,6 +34,15 @@ For a better experience, use light models whose responses your system processes 
 4. Press `Ctrl+Shift+Space` to open the spotlight
 5. Start asking questions!
 
+### Install by EXE or MSI
+
+```
+Run the /dist/MSI/AI Spotlight_*.*.*_x64_en-US.msi
+Or the /dist/MSI/AI Spotlight_*.*.*_x64_en-US.exe
+```
+
+Creates a production build in `src-tauri/target/release/bundle/`.
+
 ### Building from Source
 
 1. **Clone the repository**
@@ -171,15 +180,6 @@ This starts the Tauri application in development mode with hot reload.
 ```bash
 npm run build
 ```
-
-### Install by EXE of MSI
-
-```
-Run the /dist/MSI/AI Spotlight_*.*.*_x64_en-US.msi
-Or the /dist/MSI/AI Spotlight_*.*.*_x64_en-US.exe
-```
-
-Creates a production build in `src-tauri/target/release/bundle/`.
 
 ### Dependencies
 

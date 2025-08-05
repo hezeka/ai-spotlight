@@ -73,6 +73,9 @@ For a better experience, use light models whose responses your system processes 
    - Go to "Local Server" tab
    - Click "Start Server"
    - Ensure it's running on port 1234
+   - Turn on the «Enable CORS» option.
+
+![LM Studio Settings](/dist/lm-studio-settings.jpg)
 
 ### AI Spotlight Settings
 
@@ -81,7 +84,7 @@ Click the "⚙️ Настройки" button to configure:
 - **Model**: Choose from available models in LM Studio
 - **Max Tokens**: Response length limit (100-4000)
 - **Temperature**: Creativity level (0.0-2.0)
-- **API URL**: Server endpoint (default: `http://localhost:1234/v1/chat/completions`)
+- **API URL**: Server endpoint (default: `http://localhost:1234/v1/chat/completions`) (this input in hided by default, remove style="display:none;" attribute in html)
 - **User Switch**: Some models do not understand system prompts. You can enable this switch and the system prompt will be sent on behalf of the user.
 - **System Prompt**: Custom instructions for the AI
 
@@ -92,6 +95,7 @@ Click the "⚙️ Настройки" button to configure:
 3. **View Response**: The AI response appears below with timing information
 4. **Close**: Press Escape or click elsewhere to hide
 5. **Settings**: Click the settings button to customize behavior
+6. **Drag**: Drag spotlight window by "search icon"
 
 ## Keyboard Shortcuts
 
@@ -166,6 +170,13 @@ This starts the Tauri application in development mode with hot reload.
 
 ```bash
 npm run build
+```
+
+### Install by EXE of MSI
+
+```
+Run the /dist/MSI/AI Spotlight_*.*.*_x64_en-US.msi
+Or the /dist/MSI/AI Spotlight_*.*.*_x64_en-US.exe
 ```
 
 Creates a production build in `src-tauri/target/release/bundle/`.

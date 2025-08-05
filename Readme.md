@@ -1,133 +1,203 @@
-✨ Особенности
+# AI Spotlight
 
-🎨 Mac-подобный дизайн с blur эффектами и плавными анимациями
-⚡ Мгновенный доступ через горячую клавишу Ctrl+Win+Space
-🧠 Интеграция с LM Studio для работы с локальными AI моделями
-⚙️ Гибкие настройки - модель, токены, температура, системный промпт
-📊 Показатели производительности - время ответа и скорость генерации
-🔄 Системный трей - приложение работает в фоне
-🌙 Прозрачное окно без рамок, всегда поверх других окон
+A sleek, macOS Spotlight-like AI assistant interface for Windows that integrates with local LLM servers like LM Studio.
 
-🚀 Установка
-Предварительные требования
+For a better experience, use light models whose responses your system processes as quickly as possible. This is not a primary chat for conversation but a fast assistant that can handle simple tasks.
 
-Rust - установите с rustup.rs
-Node.js - для NPM пакетов
-LM Studio - для запуска AI моделей локально
-WebView2 - обычно уже установлен на Windows 10/11
+![AI Spotlight Interface](/dist/planets.jpg)
 
-Быстрая установка
-bash# Клонируйте проект
-git clone <your-repo-url>
-cd spotlight-ai
+## Features
 
-# Установите Tauri CLI
-npm install -g @tauri-apps/cli
+- **Spotlight-like Interface**: Beautiful, translucent overlay window similar to macOS Spotlight
+- **Global Hotkey**: Quick access with `Ctrl+Shift+Space`
+- **Click-through Support**: Window becomes transparent when not in use
+- **Local LLM Integration**: Works with LM Studio and other OpenAI-compatible APIs
+- **Customizable Settings**: Adjust model, temperature, max tokens, and system prompts
+- **Always on Top**: Stays accessible above other windows
+- **System Tray Integration**: Minimizes to system tray
+- **Animated Responses**: Smooth loading animations and response display
 
-# Запуск в режиме разработки
-npm run tauri:dev
+## Prerequisites
 
-# Сборка готового приложения
-npm run tauri:build
-Структура проекта
+- Windows 10/11
+- [LM Studio](https://lmstudio.ai/) or another OpenAI-compatible local server
+- Node.js (for development)
+- Rust (for building from source)
+
+## Quick Start
+
+### Using Pre-built Release
+
+1. Download the latest release from the [Releases](../../releases) page
+2. Extract and run `AI Spotlight.exe`
+3. Make sure LM Studio is running on `localhost:1234`
+4. Press `Ctrl+Shift+Space` to open the spotlight
+5. Start asking questions!
+
+### Building from Source
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd spotlight-ai
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Install Rust and Tauri CLI**
+   ```bash
+   # Install Rust from https://rustup.rs/
+   cargo install tauri-cli
+   ```
+
+4. **Run in development mode**
+   ```bash
+   npm run dev
+   ```
+
+5. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+## Configuration
+
+### LM Studio Setup
+
+1. Download and install [LM Studio](https://lmstudio.ai/)
+2. Download your preferred model (e.g., Llama, Mistral, etc.)
+3. Start the local server:
+   - Go to "Local Server" tab
+   - Click "Start Server"
+   - Ensure it's running on port 1234
+
+### AI Spotlight Settings
+
+Click the "⚙️ Настройки" button to configure:
+
+- **Model**: Choose from available models in LM Studio
+- **Max Tokens**: Response length limit (100-4000)
+- **Temperature**: Creativity level (0.0-2.0)
+- **API URL**: Server endpoint (default: `http://localhost:1234/v1/chat/completions`)
+- **User Switch**: Some models do not understand system prompts. You can enable this switch and the system prompt will be sent on behalf of the user.
+- **System Prompt**: Custom instructions for the AI
+
+## Usage
+
+1. **Open Spotlight**: Press `Ctrl+Shift+Space` or click the system tray icon
+2. **Ask Questions**: Type your question and press Enter
+3. **View Response**: The AI response appears below with timing information
+4. **Close**: Press Escape or click elsewhere to hide
+5. **Settings**: Click the settings button to customize behavior
+
+## Keyboard Shortcuts
+
+- `Ctrl+Shift+Space` - Toggle spotlight window
+- `Enter` - Send query
+- `Escape` - Close window or settings panel
+
+## Technical Details
+
+### Architecture
+
+- **Frontend**: HTML/CSS/JavaScript with modern styling
+- **Backend**: Rust with Tauri framework
+- **API**: OpenAI-compatible REST API integration
+- **Platform**: Windows-specific with click-through support
+
+### Key Features Implementation
+
+- **Click-through**: Uses Windows API to make window transparent to mouse clicks
+- **Global Shortcuts**: Tauri's global shortcut management
+- **Window Management**: Dynamic resizing and positioning
+- **System Tray**: Background operation with tray icon
+
+### File Structure
+
+```
 spotlight-ai/
-├── dist/
-│   └── index.html              # HTML интерфейс
-├── src-tauri/
+├── dist/                 # Built frontend files
+│   └── index.html       # Main application interface
+├── src-tauri/           # Rust backend
 │   ├── src/
-│   │   └── main.rs            # Rust код
-│   ├── build.rs               # Build script
-│   ├── Cargo.toml             # Зависимости Rust
-│   └── tauri.conf.json        # Конфигурация Tauri
-└── package.json               # NPM конфигурация
-🎮 Использование
-Основные горячие клавиши
+│   │   └── main.rs      # Main Tauri application
+│   ├── Cargo.toml       # Rust dependencies
+│   └── tauri.conf.json  # Tauri configuration
+├── package.json         # Node.js dependencies
+└── README.md           # This file
+```
 
-Ctrl+Win+Space - Показать/скрыть окно
-Enter - Отправить запрос
-ESC - Закрыть окно или панель настроек
-⚙️ - Открыть настройки
+## Troubleshooting
 
-Настройка LM Studio
+### Common Issues
 
-Запустите LM Studio
-Загрузите и запустите любую модель
-Убедитесь что сервер запущен на localhost:1234
-В настройках AI Spotlight укажите:
+**Spotlight doesn't open**
+- Check if LM Studio is running
+- Verify the global shortcut isn't conflicting with other apps
+- Try running as administrator
 
-API URL: http://localhost:1234/v1/chat/completions
-Модель: название вашей модели (например, llama-3.1-8b)
+**No response from AI**
+- Ensure LM Studio server is started
+- Check API URL in settings
+- Verify a model is loaded in LM Studio
 
+**Window positioning issues**
+- Try centering the window from system tray menu
+- Check display scaling settings
 
+### Logs
 
-Настройки приложения
+Check the browser console (F12) for JavaScript errors or Tauri logs in the terminal when running in development mode.
 
-Макс. токенов - ограничение длины ответа (100-4000)
-Температура - креативность ответов (0-2)
-Системный промпт - задает роль и поведение AI
-API URL - адрес LM Studio сервера
+## Development
 
-🔧 Разработка
-Запуск в режиме разработки
-bashnpm run tauri:dev
-Сборка релиза
-bashnpm run tauri:build
-Готовый .exe файл будет в src-tauri/target/release/
-Структура кода
+### Running in Development
 
-main.rs - Rust бэкенд с системным треем и горячими клавишами
-index.html - Frontend с React-подобной архитектурой
-tauri.conf.json - конфигурация окна и разрешений
+```bash
+npm run dev
+```
 
-🎨 Кастомизация
-Изменение дизайна
-Все стили находятся в dist/index.html в секции <style>. Основные классы:
+This starts the Tauri application in development mode with hot reload.
 
-.spotlight-container - главный контейнер
-.search-input - поле ввода
-.response-container - область ответов
-.settings-panel - панель настроек
+### Building
 
-Добавление новых функций
+```bash
+npm run build
+```
 
-Frontend - добавьте JavaScript в index.html
-Backend - модифицируйте main.rs для системных функций
-Разрешения - обновите allowlist в tauri.conf.json
+Creates a production build in `src-tauri/target/release/bundle/`.
 
-🐛 Известные проблемы
+### Dependencies
 
-Клики через прозрачные области - прозрачные части окна блокируют взаимодействие с окнами под ним
-Tauri Window API - некоторые методы изменения размера окна могут не работать
-Первый запуск - компиляция Rust может занять 5-10 минут
+- **Tauri**: Desktop application framework
+- **Serde**: JSON serialization for Rust
+- **Windows API**: For click-through functionality
+- **Raw Window Handle**: Low-level window access
 
-🤝 Участие в разработке
+## Contributing
 
-Fork репозитория
-Создайте feature branch (git checkout -b feature/amazing-feature)
-Commit изменения (git commit -m 'Add amazing feature')
-Push в branch (git push origin feature/amazing-feature)
-Создайте Pull Request
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-Идеи для улучшений
+## License
 
- Поддержка множественных AI провайдеров (OpenAI, Anthropic)
- История запросов
- Экспорт диалогов
- Темы оформления
- Плагины и расширения
- Автообновления
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-📄 Лицензия
-Этот проект распространяется под лицензией MIT. См. файл LICENSE для подробностей.
-🙏 Благодарности
+## Acknowledgments
 
-Tauri - за отличный фреймворк для desktop приложений
-LM Studio - за простую работу с локальными AI моделями
-Rust и JavaScript сообщества за инструменты разработки
+- Inspired by macOS Spotlight
+- Built with [Tauri](https://tauri.app/)
+- Designed for [LM Studio](https://lmstudio.ai/) integration
 
-📞 Поддержка
-Если у вас есть вопросы или предложения:
+## Support
 
-Создайте Issue в GitHub
-Опишите проблему с подробностями
-Приложите логи из консоли разработчика
+For issues and questions:
+1. Check the [Issues](../../issues) page
+2. Create a new issue with detailed information
+3. Include system information and error messages

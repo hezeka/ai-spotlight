@@ -31,7 +31,7 @@
             background-image: radial-gradient(ellipse at bottom, rgba(27, 30, 33, .9) 0%, rgba(27, 30, 33, .9) 70%, rgba(27, 30, 33, .8) 100%);
             border: 1px solid rgba(128, 136, 150, 0.2);
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(10, 14, 20, 0.5);
+            box-shadow: 0 15px 35px rgba(10, 14, 20, 0.3);
             transform: scale(0.8) translateY(-20px);
             opacity: 0;
             animation: spotlightAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -39,12 +39,11 @@
             transition: .2s;
             position: relative;
             pointer-events: auto;
-            background-color: rgb(62 67 72 / 53%);
         }
 
         .spotlight-container:hover {
             background-color: rgba(26, 79, 132, 0.9);
-            box-shadow: 0 20px 60px rgba(17, 26, 40, 0.5);
+            box-shadow: 0 15px 35px rgba(17, 26, 40, 0.6);
             border: 1px solid rgba(133, 177, 255, 0.2);
         }
 
@@ -87,7 +86,6 @@
         .search-container {
             position: relative;
             padding: 20px;
-            app-region: drag;
         }
 
         .search-icon {
@@ -119,7 +117,12 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        .search-input:focus {
+        .spotlight-container:hover .search-input {
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .spotlight-container .search-input:focus {
             background: rgba(255, 255, 255, 0.05);
         }
 
@@ -162,7 +165,6 @@
             background: rgba(255, 255, 255, 0.05);
             box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0);
             border-radius: 0 0 16px 16px;
-            /* transform: translateY(1px); */
             transition: 0.2s;
             display: flex;
         }
@@ -232,8 +234,8 @@
         }
 
         .settings-input {
-            background: rgb(143 143 143 / 10%);
-            border: 1px solid rgb(120 120 120 / 20%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 6px;
             color: white;
             padding: 6px 10px;
@@ -276,16 +278,21 @@
             bottom: 15px;
             right: 20px;
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.2);
             opacity: 0;
-            animation: fadeIn 1s ease 2s forwards;
+            animation: fadeIn 1s ease .5s forwards;
             cursor: pointer;
             transition: .2s;
             user-select: none;
         }
 
+        .spotlight-container:hover .settings-button {
+            color: rgba(255, 255, 255, 0.4);
+            text-shadow: 0 -1px 8px #1b2228;
+        }
+
         .settings-button:hover {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
         /* Scrollbar styling */
@@ -317,7 +324,6 @@
             border: 6px solid rgb(39 43 45);
             border-radius: 18px;
         }
-        /* rgb(39 43 45) */
 
         .switch {
             display: flex;
@@ -427,6 +433,25 @@
     </div>
 
     <script>
+        // Tauri v1.x API access
+        let invoke;
+        
+        async function initTauriAPI() {
+            try {
+                if (window.__TAURI_INVOKE__) {
+                    invoke = window.__TAURI_INVOKE__;
+                    console.log('✅ Using __TAURI_INVOKE__');
+                    return true;
+                }
+                
+                console.log('Available in window.__TAURI__:', Object.keys(window.__TAURI__ || {}));
+                return false;
+            } catch (error) {
+                console.log('Tauri API init error:', error);
+                return false;
+            }
+        }
+
         class SpotlightApp {
             constructor() {
                 this.searchInput = document.getElementById('searchInput');
@@ -451,20 +476,54 @@
                 this.searchInput.focus();
                 this.setupEventListeners();
                 this.setupKeyboardShortcuts();
+                this.setupWindowManagement();
+                this.resizeWindow()
+            }
+
+            async setupWindowManagement() {
+                // In Tauri v1.x, window events are handled via invoke commands
+                console.log('✅ Window management setup (using invoke commands)');
+                
+                // Set up focus change handling via polling (simple approach)
+                let lastFocused = true;
+                setInterval(async () => {
+                    try {
+                        // We'll handle focus changes in the main process
+                        // This is a simplified approach for Tauri v1.x
+                    } catch (error) {
+                        // Ignore errors in polling
+                    }
+                }, 1000);
+            }
+
+            // Helper method for invoking Tauri commands
+            async invokeCommand(command, args = {}) {
+                if (!invoke) {
+                    console.log(`⚠️ Cannot invoke ${command} - invoke function not available`);
+                    return;
+                }
+                
+                try {
+                    const result = await invoke(command, args);
+                    console.log(`✅ Command ${command} executed successfully`, args);
+                    return result;
+                } catch (error) {
+                    console.error(`❌ Error invoking ${command}:`, error, args);
+                }
             }
 
             loadSettings() {
-                // Load settings from memory (since we can't use localStorage)
+                // Default settings
                 this.settings = {
-                    model: document.getElementById('modelName').value,
-                    maxTokens: parseInt(document.getElementById('maxTokens').value),
-                    temperature: parseFloat(document.getElementById('temperature').value),
-                    apiUrl: document.getElementById('apiUrl').value,
-                    systemPrompt: document.getElementById('systemPrompt').value,
-                    systemPromptSwitcher: document.getElementById('systemPromptSwitcher').checked
+                    model: 'yandexgpt-5-lite-8b-instruct',
+                    maxTokens: 1000,
+                    temperature: 0.7,
+                    apiUrl: 'http://localhost:1234/v1/chat/completions',
+                    systemPrompt: '',
+                    systemPromptSwitcher: false
                 };
 
-                this.loadSettingsFromLocalStorage();
+                this.loadSettingsFromStorage();
                 this.setupInputsBySettings();
             }
 
@@ -477,12 +536,15 @@
                 document.getElementById('systemPromptSwitcher').checked = this.settings.systemPromptSwitcher;
             }
 
-            loadSettingsFromLocalStorage() {
-                const savedSettings = localStorage.getItem('spotlight-settings');
-                if (savedSettings) {
-                    this.settings = JSON.parse(savedSettings);
+            loadSettingsFromStorage() {
+                try {
+                    const savedSettings = localStorage.getItem('spotlight-settings');
+                    if (savedSettings) {
+                        this.settings = { ...this.settings, ...JSON.parse(savedSettings) };
+                    }
+                } catch (error) {
+                    console.warn('Failed to load settings:', error);
                 }
-                console.log(savedSettings);
             }
 
             saveSettings() {
@@ -495,12 +557,15 @@
                     systemPromptSwitcher: document.getElementById('systemPromptSwitcher').checked
                 };
 
-                this.saveSettingsToLocalStorage();
+                this.saveSettingsToStorage();
             }
 
-            
-            saveSettingsToLocalStorage() {
-                localStorage.setItem('spotlight-settings', JSON.stringify(this.settings));
+            saveSettingsToStorage() {
+                try {
+                    localStorage.setItem('spotlight-settings', JSON.stringify(this.settings));
+                } catch (error) {
+                    console.warn('Failed to save settings:', error);
+                }
             }
 
             setupEventListeners() {
@@ -515,7 +580,7 @@
                 });
 
                 // Auto-save settings on change
-                ['modelName', 'maxTokens', 'temperature', 'apiUrl', 'systemPrompt'].forEach(id => {
+                ['modelName', 'maxTokens', 'temperature', 'apiUrl', 'systemPrompt', 'systemPromptSwitcher'].forEach(id => {
                     document.getElementById(id).addEventListener('change', () => {
                         this.saveSettings();
                     });
@@ -541,19 +606,34 @@
                 });
             }
 
-            toggleSettings() {
+            async toggleSettings() {
                 this.settingsVisible = !this.settingsVisible;
                 this.settingsPanel.classList.toggle('visible', this.settingsVisible);
                 
                 if (this.settingsVisible) {
-                    this.resizeWindow(550);
                     this.hideResponse();
+                    this.resizeWindow(700);
+
+                    setTimeout(() => {
+                        this.resizeWindow()
+                    }, 550)
+                    // Disable click-through when settings are open
+                    await this.invokeCommand('set_window_click_through', { enabled: false });
                 } else {
                     const hasResponse = this.responseContainer.classList.contains('visible');
-                    if(this.response) {
+                    if(this.response && !this.isLoading) {
                         this.showResponse(this.response);
                     }
-                    this.resizeWindow(hasResponse ? 450 : 200);
+                    this.resizeWindow(700);
+
+                    setTimeout(() => {
+                        this.resizeWindow()
+                    }, 550)
+                    
+                    // Re-enable click-through if no content is showing
+                    if (!hasResponse) {
+                        await this.invokeCommand('set_window_click_through', { enabled: true });
+                    }
                 }
             }
 
@@ -561,16 +641,22 @@
                 const query = this.searchInput.value.trim();
                 if (!query) return;
 
+                console.log('🔍 Starting search:', query);
+
+                // Disable click-through during search
+                await this.invokeCommand('set_window_click_through', { enabled: false });
+
                 this.showLoading();
                 this.startTime = Date.now();
                 
                 try {
                     const response = await this.queryLMStudio(query);
                     const responseTime = Date.now() - this.startTime;
-                    this.showResponse(response);
+                    await this.showResponse(response);
                     this.showSpeed(responseTime, response.length);
                 } catch (error) {
-                    this.showError(error.message);
+                    console.error('Search error:', error);
+                    await this.showError(error.message);
                     this.speedIndicator.textContent = 'Ошибка';
                 }
             }
@@ -635,18 +721,20 @@
                 this.loadingIndicator.style.display = 'block';
                 this.speedIndicator.textContent = 'Думаю...';
                 this.hideResponse();
+                this.resizeWindow()
             }
 
             hideLoading() {
                 this.isLoading = false;
                 this.loadingIndicator.style.display = 'none';
+                this.resizeWindow()
             }
 
-            showResponse(text) {
+            async showResponse(text) {
                 this.hideLoading();
 
                 if (this.settingsVisible) {
-                    this.toggleSettings();
+                    await this.toggleSettings();
                 }
                 
                 this.response = this.formatResponse(text);
@@ -658,25 +746,40 @@
                 this.responseContent.style.animation = 'none';
                 setTimeout(() => {
                     this.responseContent.style.animation = 'responseAppear 0.5s ease forwards';
+                    let timeElapsed = 0;
+                    this.resizeWindow(700);
+
+                    setTimeout(() => {
+                        this.resizeWindow()
+                    }, 550)
                 }, 10);
 
-                // Auto-resize window
-                this.resizeWindow(this.settingsVisible ? 550 : 450);
+                // Auto-resize window and keep click-through disabled
+                // await this.resizeWindow(this.settingsVisible ? 550 : 450);
+                await this.invokeCommand('set_window_click_through', { enabled: false });
             }
 
-            showError(message) {
+            async showError(message) {
                 this.hideLoading();
                 
                 const errorHtml = `<div class="error-message">❌ ${message}</div>`;
                 this.responseContent.innerHTML = errorHtml;
                 this.responseContainer.classList.add('visible');
                 
-                this.resizeWindow(this.settingsVisible ? 550 : 350);
+                // await this.resizeWindow(this.settingsVisible ? 550 : 350);
+                this.resizeWindow()
+                await this.invokeCommand('set_window_click_through', { enabled: false });
             }
 
-            hideResponse() {
+            async hideResponse() {
                 this.responseContainer.classList.remove('visible');
-                this.resizeWindow(this.settingsVisible ? 550 : 200);
+                // await this.resizeWindow(this.settingsVisible ? 550 : 200);
+                this.resizeWindow()
+                
+                // Re-enable click-through if no settings are open
+                if (!this.settingsVisible) {
+                    await this.invokeCommand('set_window_click_through', { enabled: true });
+                }
             }
 
             showSpeed(responseTime, textLength) {
@@ -687,66 +790,193 @@
 
             formatResponse(text) {
                 return text
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/`(.*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
                     .replace(/\n\n/g, '</p><p>')
                     .replace(/\n/g, '<br>')
+                    .replace(/```(\w+)?<br>?([\s\S]*?)```/g, (match, language, code) => {
+                        const cleanCode = code.replace(/<br>/g, '\n').replace(/<\/p><p>/g, '\n\n');
+                        
+                        const langLabel = language 
+                            ? `<div style="background: rgba(0,0,0,0.2); padding: 4px 8px; font-size: 12px; color: rgba(255,255,255,0.7); border-radius: 4px 4px 0 0; font-family: monospace;margin-top:16px; margin-bottom: -16px;">${language}</div>` 
+                            : '';
+                        const codeStyle = language 
+                            ? 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 0 0 4px 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;'
+                            : 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;';
+                        
+                        return `${langLabel}<code style="${codeStyle}">${cleanCode.trim()}</code>`;
+                    })
+                    .replace(/`([^`<]*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/^/, '<p>')
                     .replace(/$/, '</p>');
             }
 
+
+
+
+
+
             async resizeWindow(height) {
-                if (window.__TAURI__) {
-                    try {
-                        const { appWindow } = window.__TAURI__.window;
-                        await appWindow.setSize(new window.__TAURI__.window.LogicalSize(700, Math.min(height, 900)));
-                    } catch (error) {
-                        console.log('Resize error:', error);
+                if (!height) {
+                    height = document.getElementsByClassName('spotlight-container')[0].offsetHeight + 20 + 60;
+                    if (this.settingsVisible) {
+                        height += document.getElementById('settingsPanel').offsetHeight + 16 - 40;
                     }
+                }
+                if (!invoke) {
+                    console.log('⚠️ Cannot resize - invoke not available');
+                    return;
+                }
+                
+                try {
+                    await this.invokeCommand('resize_window', { 
+                        width: 660, 
+                        height: Math.min(height, 900) 
+                    });
+                    console.log('✅ Window resized to:', height);
+                } catch (error) {
+                    console.log('Resize error:', error);
                 }
             }
 
             async closeApp() {
-                if (window.__TAURI__) {
-                    try {
-                        const { appWindow } = window.__TAURI__.window;
-                        await appWindow.hide();
-                    } catch (error) {
-                        console.log('Close error:', error);
-                    }
-                } else {
-                    // For browser testing
+                if (!invoke) {
+                    // Fallback for browser testing
+                    console.log('Browser mode - hiding with animation');
                     document.querySelector('.spotlight-container').style.animation = 
                         'spotlightAppear 0.2s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards';
+                    return;
+                }
+                
+                try {
+                    await this.invokeCommand('hide_main_window');
+                    console.log('✅ Window hidden');
+                } catch (error) {
+                    console.log('Close error:', error);
                 }
             }
         }
 
-        // Initialize the app
-        const app = new SpotlightApp();
+        // Initialize app when DOM and Tauri are ready
+        async function initApp() {
+            console.log('🚀 Initializing app...');
+            console.log('Available on window:', Object.keys(window).filter(k => k.includes('TAURI')));
+            
+            // Wait for Tauri API or timeout after 5 seconds
+            let attempts = 0;
+            const maxAttempts = 50; // 5 seconds with 100ms intervals
+            
+            while (attempts < maxAttempts) {
+                if (await initTauriAPI()) {
+                    console.log('✅ Tauri API loaded successfully');
+                    console.log('invoke available:', !!invoke);
+                    break;
+                }
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+                
+                // Log progress every second
+                if (attempts % 10 === 0) {
+                    console.log(`⏳ Waiting for Tauri API... (${attempts/10}s)`);
+                }
+            }
+            
+            if (attempts >= maxAttempts) {
+                console.log('⚠️ Tauri API not available - running in browser mode');
+                console.log('This is normal when testing in a browser');
+            }
+            
+            // Initialize app regardless
+            console.log('🎯 Creating SpotlightApp instance...');
+            const app = new SpotlightApp();
+            
+            // Test invoke function
+            if (invoke) {
+                console.log('🧪 Testing invoke function...');
+                try {
+                    // Try a simple command to test connectivity
+                    await invoke('set_window_focus');
+                    console.log('✅ Invoke function working correctly');
+                    
+                    // Add click-through test buttons
+                    // setTimeout(() => {
+                    //     const container = document.querySelector('.spotlight-container');
+                    //     const testDiv = document.createElement('div');
+                    //     testDiv.innerHTML = `
+                    //         <div style="position: absolute; top: 5px; left: 5px; display: flex; gap: 5px;">
+                    //             <button onclick="testClickThrough(true)" style="font-size: 10px; padding: 2px 5px;">Enable CT</button>
+                    //             <button onclick="testClickThrough(false)" style="font-size: 10px; padding: 2px 5px;">Disable CT</button>
+                    //         </div>
+                    //     `;
+                    //     container.appendChild(testDiv);
+                        
+                    //     window.testClickThrough = async (enabled) => {
+                    //         console.log('🧪 Testing click-through:', enabled);
+                    //         try {
+                    //             await invoke('set_window_click_through', { enabled });
+                    //             console.log('✅ Click-through test completed');
+                    //         } catch (error) {
+                    //             console.error('❌ Click-through test failed:', error);
+                    //         }
+                    //     };
+                    // }, 2000);
+                    
+                } catch (error) {
+                    console.log('⚠️ Invoke test failed:', error);
+                }
+            }
+        }
+
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
 
         // Test connection on load
-        window.addEventListener('load', () => {
-            fetch('http://localhost:1234/v1/models')
-                .then(response => {
-                    if (response.ok) {
-                        response.json().then(data => {
-                            console.log(data)
-                            const datalist = document.getElementById('models');
-                            data.data.forEach(model => {
-                                const option = document.createElement('option');
-                                option.value = model.id;
-                                datalist.appendChild(option);
-                            });
-                        });
-                        console.log('✅ LM Studio подключен');
-                    }
-                })
-                .catch(() => {
-                    console.log('⚠️ LM Studio недоступен');
-                });
+        window.addEventListener('load', async () => {
+            console.log('📡 Testing LM Studio connection...');
+            
+            // Wait a bit for everything to initialize
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            try {
+                const response = await fetch('http://localhost:1234/v1/models');
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ LM Studio connected. Available models:', data.data.length);
+                    const datalist = document.getElementById('models');
+                    data.data.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model.id;
+                        datalist.appendChild(option);
+                    });
+                    console.log('✅ Models loaded into datalist');
+                } else {
+                    console.log('⚠️ LM Studio unavailable (HTTP ' + response.status + ')');
+                }
+            } catch (error) {
+                console.log('⚠️ LM Studio connection failed:', error.message);
+                console.log('💡 Make sure LM Studio is running on port 1234');
+            }
         });
+
+        // Debug: Log window object contents
+        setTimeout(() => {
+            console.log('🔧 Debug info:');
+            console.log('window.__TAURI__ keys:', Object.keys(window.__TAURI__ || {}));
+            console.log('window.__TAURI_API__ exists:', !!window.__TAURI_API__);
+            console.log('window.__TAURI_INVOKE__ exists:', !!window.__TAURI_INVOKE__);
+            
+            // Log all TAURI-related globals
+            const tauriGlobals = Object.keys(window).filter(k => k.includes('TAURI'));
+            console.log('All TAURI globals:', tauriGlobals);
+            
+            tauriGlobals.forEach(key => {
+                console.log(`${key}:`, typeof window[key], window[key]);
+            });
+        }, 2000);
     </script>
 </body>
 </html>

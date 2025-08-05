@@ -1,4 +1,8 @@
 node_modules/
+
+# Игнорировать все содержимое папки debug
 src-tauri/target/debug/
+
+# Игнорировать все содержимое папки release, кроме bundle
 src-tauri/target/release/
-!src-tauri/target/release/bundle/**/*
+!src-tauri/target/release/bundle/

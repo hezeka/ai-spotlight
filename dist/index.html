@@ -360,6 +360,20 @@
             cursor: help;
             margin-left: 5px;
             color: rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+        
+        .tooltip.red {
+            color: rgba(255, 68, 68, 0.5);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            left: -6px;
+            right: -6px;
+            top: -3px;
+            bottom: -3px;
         }
         
         .tooltip:hover {
@@ -508,6 +522,10 @@
 
         .switch input[type="checkbox"]:checked + .slider {
             background-color: rgba(47, 108, 159, 0.8);
+        }
+
+        .switch input[type="checkbox"]:checked + .slider.red {
+            background-color: rgba(205, 77, 77, 0.8);
         }
 
         .switch input[type="checkbox"]:checked + .slider:before {
@@ -730,11 +748,11 @@
                     <div class="settings-row">
                         <label class="settings-label">
                             Поверх других окон:
-                            <div class="tooltip" data-tooltip="Окно приложения всегда будет отображаться поверх других окон. Рукомендуется отключать, если вы играете в игры с жёстким античитом.">?</div>
+                            <div class="tooltip red" data-tooltip="Не рекомендуется включать, если вы играете в игры с жёстким античитом! (риск бана)">?</div>
                         </label>
                         <label class="switch">
                             <input type="checkbox" id="alwaysOnTop">
-                            <span class="slider round"></span>
+                            <span class="slider round red"></span>
                         </label>
                     </div>
                 </div>
@@ -781,6 +799,7 @@
 
         class SpotlightApp {
             constructor() {
+                alert('Debug: SpotlightApp constructor started');
                 this.searchInput = document.getElementById('searchInput');
                 this.searchTextarea = document.getElementById('searchTextarea');
                 this.loadingIndicator = document.getElementById('loadingIndicator');
@@ -806,8 +825,11 @@
                 this.saveTimeout = null;
                 this.modelSaveTimeout = null;
 
+                this.hideTooltipTimeout = null;
+
                 this.loadSettings();
                 this.init();
+                alert('Debug: SpotlightApp constructor finished');
             }
 
             init() {
@@ -1229,6 +1251,7 @@
                     this.toggleAPIKeyVisibility();
                     this.saveSettings();
                     // Reload models for the new integration type
+                    alert(`Debug: Integration type changed, loading models for ${document.getElementById('integrationType').value}`);
                     this.loadAvailableModels(document.getElementById('integrationType').value);
                 });
             }
@@ -1700,19 +1723,29 @@
                     if (integrationType === 'openai') {
                         this.availableModels = models;
                     } else {
-                        const response = await fetch(modelsUrl);
-                        if (response.ok) {
-                            const data = await response.json();
-                            
-                            if (integrationType === 'lmstudio') {
-                                console.log('✅ LM Studio connected. Available models:', data.data?.length || 0);
-                                this.availableModels = data.data?.map(model => model.id) || [];
-                            } else if (integrationType === 'ollama') {
-                                console.log('✅ Ollama connected. Available models:', data.models?.length || 0);
-                                this.availableModels = data.models?.map(model => model.name) || [];
+                        try {
+                            console.log(`🔄 Fetching models from ${integrationType} at ${modelsUrl}`);
+                            const response = await fetch(modelsUrl);
+                            if (response.ok) {
+                                const data = await response.json();
+                                console.log(`📋 Raw ${integrationType} response:`, data);
+                                
+                                if (integrationType === 'lmstudio') {
+                                    console.log('✅ LM Studio connected. Available models:', data.data?.length || 0);
+                                    this.availableModels = data.data?.map(model => model.id) || [];
+                                } else if (integrationType === 'ollama') {
+                                    console.log('✅ Ollama connected. Available models:', data.models?.length || 0);
+                                    this.availableModels = data.models?.map(model => model.name) || [];
+                                }
+                            } else {
+                                console.log(`⚠️ ${integrationType} unavailable (HTTP ${response.status})`);
+                                console.log(`Response text: ${await response.text()}`);
+                                return;
                             }
-                        } else {
-                            console.log(`⚠️ ${integrationType} unavailable (HTTP ${response.status})`);
+                        } catch (fetchError) {
+                            console.error(`❌ Network error fetching ${integrationType} models:`, fetchError);
+                            console.log('This might be a CORS issue in production build');
+                            alert(`Error loading ${integrationType} models: ${fetchError.message}`);
                             return;
                         }
                     }
@@ -1760,15 +1793,22 @@
                 
                 tooltips.forEach(tooltip => {
                     tooltip.addEventListener('mouseenter', () => {
+                        clearTimeout(this.hideTooltipTimeout)
                         const text = tooltip.getAttribute('data-tooltip');
                         if (text) {
-                            tooltipArea.textContent = text;
-                            tooltipArea.classList.add('visible');
+                            if (tooltipArea.classList.contains('visible')) {
+                                tooltipArea.classList.remove('visible');
+                                tooltipArea.textContent = text;
+                                setTimeout(() => {tooltipArea.classList.add('visible');}, 200)
+                            } else {
+                                tooltipArea.textContent = text;
+                                tooltipArea.classList.add('visible');
+                            }
                         }
                     });
                     
                     tooltip.addEventListener('mouseleave', () => {
-                        tooltipArea.classList.remove('visible');
+                        this.hideTooltipTimeout = setTimeout(() => {tooltipArea.classList.remove('visible');}, 1000)
                     });
                 });
             }

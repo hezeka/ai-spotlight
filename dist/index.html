@@ -123,10 +123,45 @@
             color: white;
             font-size: 24px;
             font-weight: 300;
-            padding: 15px 20px 15px 50px;
+            padding: 0 20px 0 50px;
             border-radius: 12px;
             transition: all 0.2s ease;
             user-select: none;
+            height: 58px;
+            max-width: 100%;
+            min-width: 100%;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .search-input.slim {
+            font-size: 14px;
+        }
+        
+        .search-textarea {
+            resize: none;
+            min-height: 58px;
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .search-textarea::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .search-textarea::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .search-textarea::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+        
+        .search-textarea::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .search-input::placeholder {
@@ -228,6 +263,8 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             backdrop-filter: blur(20px);
             z-index: 10;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .settings-panel.visible {
@@ -247,6 +284,8 @@
             font-size: 13px;
             color: rgba(255, 255, 255, 0.8);
             min-width: 120px;
+            display: flex;
+            align-items: center;
         }
 
         .settings-input {
@@ -270,6 +309,98 @@
             height: 60px;
             resize: vertical;
             font-family: inherit;
+        }
+
+        .settings-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+        }
+        
+        .settings-section.with-border {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .settings-section-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .settings-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: white;
+            padding: 6px 10px;
+            font-size: 12px;
+            width: 200px;
+            cursor: pointer;
+        }
+
+        .settings-select:focus {
+            outline: none;
+            border-color: rgba(133, 177, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .settings-select option {
+            background: rgba(27, 30, 33, 0.95);
+            color: white;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            margin-left: 5px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .tooltip:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 11px;
+            line-height: 1.4;
+            position: absolute;
+            z-index: 1000;
+            top: 25px;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: -5px;
+            right: 15px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent rgba(0, 0, 0, 0.9) transparent;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
 
         .error-message {
@@ -382,6 +513,91 @@
         .switch input[type="checkbox"]:checked + .slider:before {
             transform: translateX(16px);
         }
+
+        .tooltip-area {
+            position: fixed;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            padding: 12px 20px;
+            background-color: rgba(22, 22, 27, 0.057);
+            backdrop-filter: blur(15px);
+            border-radius: 9px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.078);
+            font-size: 14px;
+            z-index: 100;
+            pointer-events: none;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: .2s;
+        }
+
+        .tooltip-area.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .stop-button, .clear-button {
+            position: absolute;
+            right: 34px;
+            top: 50%;
+            height: 28px;
+            width: 28px;
+            transform: translateY(-50%);
+            background: rgb(255 255 255 / 5%);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 0 1px #ffffff1f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .stop-button svg, .clear-button svg {
+            opacity: .3;
+            transition: opacity 0.2s;
+        }
+        
+        .stop-button:hover, .clear-button:hover {
+            background: rgba(255, 69, 69, 0.05);
+            box-shadow: 0 0 0 1px #ff9f9f1f;
+        }
+
+        .stop-button:hover svg, .clear-button:hover svg {
+            opacity: .6;
+        }
+        
+        .stop-button.visible, .clear-button.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Specific styles for clear button */
+        .clear-button {
+            background: rgb(255 255 255 / 8%);
+        }
+        
+        .clear-button:hover {
+            background: rgba(255, 69, 69, 0.08);
+            box-shadow: 0 0 0 1px #ff6b6b33;
+        }
+        
+        .clear-button svg {
+            opacity: .4;
+        }
+        
+        .clear-button:hover svg {
+            opacity: .8;
+        }
     </style>
 </head>
 <body>
@@ -399,37 +615,130 @@
                 id="searchInput"
                 autocomplete="off"
             >
+            <textarea 
+                class="search-input search-textarea" 
+                placeholder="Спросите что-нибудь..."
+                id="searchTextarea"
+                style="display: none;"
+                rows="1"
+            ></textarea>
             <div class="settings-button" id="settingsBtn">⚙️ Настройки</div>
+            
+            <!-- Stop button (shown during loading) -->
+            <div class="stop-button" id="stopBtn">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 7C1 4.1716 1 2.7574 1.8784 1.8784C2.758 1 4.1716 1 7 1C9.8284 1 11.2426 1 12.121 1.8784C13 2.758 13 4.1716 13 7C13 9.8284 13 11.2426 12.121 12.121C11.2432 13 9.8284 13 7 13C4.1716 13 2.7574 13 1.8784 12.121C1 11.2432 1 9.8284 1 7Z" fill="white"/>
+                </svg>
+            </div>
+            
+            <!-- Clear button (shown when response is visible) -->
+            <div class="clear-button" id="clearBtn">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
         </div>
 
         <div class="settings-panel" id="settingsPanel">
+        
+            <!-- Fixed Tooltip Area -->
+            <div class="tooltip-area" id="tooltipArea"></div>
+            <!-- Settings Toggle -->
             <div class="settings-row">
-                <label class="settings-label">Модель:</label>
-                <input type="text" class="settings-input" id="modelName" value="yandexgpt-5-lite-8b-instruct" placeholder="Название модели" list="models">
-                <datalist id="models">
-                </datalist>
+                <label class="settings-label">
+                    Настройки:
+                    <div class="tooltip" data-tooltip="Обычные - основные параметры модели. Расширенные - дополнительные настройки API и окна.">?</div>
+                </label>
+                <label class="switch">
+                    Обычные
+                    <input type="checkbox" id="advancedSettings">
+                    <span class="slider round"></span>
+                    Расширенные
+                </label>
+            </div>
+            
+            <!-- Basic Settings (Always visible) -->
+            <div class="settings-row">
+                <label class="settings-label">
+                    Модель:
+                    <div class="tooltip" data-tooltip="Название модели для генерации ответов. Автоматически загружается список доступных моделей.">?</div>
+                </label>
+                <div id="modelFieldContainer">
+                    <select class="settings-select" id="modelName">
+                    </select>
+                </div>
             </div>
             <div class="settings-row">
-                <label class="settings-label">Макс. токенов:</label>
+                <label class="settings-label">
+                    Макс. токенов:
+                    <div class="tooltip" data-tooltip="Максимальное количество токенов для генерации. Один токен ≈ 0.75 слова. Больше значение = длиннее ответ.">?</div>
+                </label>
                 <input type="number" class="settings-input" id="maxTokens" value="1000" min="100" max="4000">
             </div>
             <div class="settings-row">
-                <label class="settings-label">Температура:</label>
+                <label class="settings-label">
+                    Температура:
+                    <div class="tooltip" data-tooltip="Креативность ответов. 0 = предсказуемо, 1 = сбалансировано, 2 = неконтроллируемо.">?</div>
+                </label>
                 <input type="number" class="settings-input" id="temperature" value="0.7" min="0" max="2" step="0.1">
             </div>
-            <div class="settings-row" style="display:none;">
-                <label class="settings-label">API URL:</label>
-                <input type="text" class="settings-input" id="apiUrl" value="http://localhost:1234/v1/chat/completions">
-            </div>
+            
+            <!-- System Prompt Settings -->
             <div class="settings-row">
-                <label class="settings-label">Системный промпт:</label>
+                <label class="settings-label">
+                    Системный промпт:
+                    <div class="tooltip" data-tooltip="В системный промпт можно задать инструкции, которых модель будет обязана придерживаться.">?</div>
+                </label>
                 <label class="switch">
-                    By User
+                    By User <div class="tooltip" style="margin-left: 0;" data-tooltip="Отправлять как пользовательское сообщение вместо системного. Полезно для моделей, которые не поддерживают system role.">?</div>
                     <input type="checkbox" id="systemPromptSwitcher">
                     <span class="slider round"></span>
                 </label>
             </div>
             <textarea class="settings-input settings-textarea" id="systemPrompt" placeholder="Ты полезный AI ассистент..."></textarea>
+            
+            <!-- Advanced Settings -->
+            <div id="advancedSettingsSection" style="display: none; margin-top: 30px;">
+                <!-- API Integration Settings -->
+                <div class="settings-section with-border">
+                    <div class="settings-row">
+                        <label class="settings-label">
+                            Тип интеграции:
+                            <div class="tooltip" data-tooltip="LM Studio - локальный сервер, Ollama - локальные модели, OpenAI - облачный API, Пользовательский - любой другой OpenAI-совместимый API.">?</div>
+                        </label>
+                        <select class="settings-select" id="integrationType">
+                            <option value="lmstudio">LM Studio</option>
+                            <option value="ollama">Ollama</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="custom">Пользовательский</option>
+                        </select>
+                    </div>
+                    <div class="settings-row">
+                        <label class="settings-label">
+                            API URL:
+                            <div class="tooltip" data-tooltip="Адрес API сервера. Автоматически подставляется по умолчанию для выбранного типа интеграции.">?</div>
+                        </label>
+                        <input type="text" class="settings-input" id="apiUrl" value="http://localhost:1234/v1/chat/completions">
+                    </div>
+                    <div class="settings-row" id="apiKeyRow" style="display: none;">
+                        <label class="settings-label">
+                            API Key:
+                            <div class="tooltip" data-tooltip="Ключ доступа к API. Необходим для OpenAI и некоторых пользовательских API. Не требуется для локальных серверов.">?</div>
+                        </label>
+                        <input type="password" class="settings-input" id="apiKey" placeholder="Ваш API ключ">
+                    </div>
+                    <div class="settings-row">
+                        <label class="settings-label">
+                            Поверх других окон:
+                            <div class="tooltip" data-tooltip="Окно приложения всегда будет отображаться поверх других окон. Рукомендуется отключать, если вы играете в игры с жёстким античитом.">?</div>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" id="alwaysOnTop">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="loading-indicator" id="loadingIndicator">
@@ -473,14 +782,18 @@
         class SpotlightApp {
             constructor() {
                 this.searchInput = document.getElementById('searchInput');
+                this.searchTextarea = document.getElementById('searchTextarea');
                 this.loadingIndicator = document.getElementById('loadingIndicator');
                 this.responseContainer = document.getElementById('responseContainer');
                 this.responseContent = document.getElementById('responseContent');
                 this.settingsBtn = document.getElementById('settingsBtn');
                 this.settingsPanel = document.getElementById('settingsPanel');
                 this.speedIndicator = document.getElementById('speedIndicator');
+                this.stopBtn = document.getElementById('stopBtn');
+                this.clearBtn = document.getElementById('clearBtn');
                 this.responseType = 'formatted';
                 this.formatSwitcher = document.getElementById('formatSwitcher');
+                this.currentSearchElement = this.searchInput; // Track current active element
 
                 this.rawResponse = ``;
                 this.response = ``;
@@ -488,6 +801,10 @@
                 this.isLoading = false;
                 this.settingsVisible = false;
                 this.startTime = null;
+                this.abortController = null;
+                this.isTextareaMode = false;
+                this.saveTimeout = null;
+                this.modelSaveTimeout = null;
 
                 this.loadSettings();
                 this.init();
@@ -540,25 +857,42 @@
             loadSettings() {
                 // Default settings
                 this.settings = {
+                    advancedSettings: false,
+                    integrationType: 'lmstudio',
                     model: 'yandexgpt-5-lite-8b-instruct',
                     maxTokens: 1000,
                     temperature: 0.7,
                     apiUrl: 'http://localhost:1234/v1/chat/completions',
+                    apiKey: '',
                     systemPrompt: '',
-                    systemPromptSwitcher: false
+                    systemPromptSwitcher: false,
+                    alwaysOnTop: false
                 };
 
+                this.availableModels = [];
                 this.loadSettingsFromStorage();
                 this.setupInputsBySettings();
+                this.setupAdvancedToggleHandler();
+                this.setupIntegrationTypeHandler();
+                this.setupTooltips();
             }
 
             setupInputsBySettings() {
+                document.getElementById('advancedSettings').checked = this.settings.advancedSettings;
+                document.getElementById('integrationType').value = this.settings.integrationType;
                 document.getElementById('modelName').value = this.settings.model;
                 document.getElementById('maxTokens').value = this.settings.maxTokens;
                 document.getElementById('temperature').value = this.settings.temperature;
                 document.getElementById('apiUrl').value = this.settings.apiUrl;
+                document.getElementById('apiKey').value = this.settings.apiKey;
                 document.getElementById('systemPrompt').value = this.settings.systemPrompt;
                 document.getElementById('systemPromptSwitcher').checked = this.settings.systemPromptSwitcher;
+                document.getElementById('alwaysOnTop').checked = this.settings.alwaysOnTop;
+                
+                this.toggleAdvancedSettings();
+                this.updateAPIUrlByIntegrationType();
+                this.toggleAPIKeyVisibility();
+                this.updateModelField();
             }
 
             loadSettingsFromStorage() {
@@ -573,15 +907,33 @@
             }
 
             saveSettings() {
+                const oldAlwaysOnTop = this.settings.alwaysOnTop;
+                const isAdvanced = document.getElementById('advancedSettings').checked;
+                
+                // Get model value from the currently active/visible field
+                let modelValue = '';
+                const modelInput = document.getElementById('modelName');
+                
+                modelValue = modelInput.value
+                
                 this.settings = {
-                    model: document.getElementById('modelName').value,
-                    maxTokens: parseInt(document.getElementById('maxTokens').value),
-                    temperature: parseFloat(document.getElementById('temperature').value),
-                    apiUrl: document.getElementById('apiUrl').value,
-                    systemPrompt: document.getElementById('systemPrompt').value,
-                    systemPromptSwitcher: document.getElementById('systemPromptSwitcher').checked
+                    integrationType: document.getElementById('integrationType').value,
+                    model: modelValue,
+                    maxTokens: parseInt(document.getElementById('maxTokens').value) || 1000,
+                    temperature: parseFloat(document.getElementById('temperature').value) || 0.7,
+                    apiUrl: document.getElementById('apiUrl').value || '',
+                    apiKey: document.getElementById('apiKey').value || '',
+                    systemPrompt: document.getElementById('systemPrompt').value || '',
+                    systemPromptSwitcher: document.getElementById('systemPromptSwitcher').checked || false,
+                    alwaysOnTop: document.getElementById('alwaysOnTop').checked || false
                 };
 
+                // Apply always-on-top setting if it changed
+                if (oldAlwaysOnTop !== this.settings.alwaysOnTop) {
+                    this.applyAlwaysOnTopSetting();
+                }
+
+                console.log('Settings saved:', this.settings);
                 this.saveSettingsToStorage();
             }
 
@@ -594,39 +946,355 @@
             }
 
             setupEventListeners() {
-                this.searchInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && !this.isLoading) {
-                        this.handleSearch();
-                    }
+                // Setup event listeners for both input and textarea
+                this.setupSearchElementListeners(this.searchInput);
+                this.setupSearchElementListeners(this.searchTextarea);
+                
+                // Input event for switching between input and textarea
+                this.searchInput.addEventListener('input', (e) => {
+                    this.handleInputChange(e);
+                });
+                
+                this.searchTextarea.addEventListener('input', (e) => {
+                    this.handleInputChange(e);
                 });
 
                 this.settingsBtn.addEventListener('click', () => {
                     this.toggleSettings();
                 });
+                
+                this.stopBtn.addEventListener('click', () => {
+                    this.stopRequest();
+                });
+                
+                this.clearBtn.addEventListener('click', () => {
+                    this.clearResponse();
+                });
 
                 // Auto-save settings on change
-                ['modelName', 'maxTokens', 'temperature', 'apiUrl', 'systemPrompt', 'systemPromptSwitcher'].forEach(id => {
-                    document.getElementById(id).addEventListener('change', () => {
-                        this.saveSettings();
-                    });
-                });
+                this.setupAutoSaveListeners();
 
-                // Clear response when input is cleared
-                this.searchInput.addEventListener('input', () => {
-                    if (!this.searchInput.value.trim() && this.responseContainer.classList.contains('visible')) {
-                        this.hideResponse();
-
-                        this.resizeWindow(700);
-
-                        setTimeout(() => {
-                            this.resizeWindow()
-                        }, 550)
-                    }
-                });
+                // Clear response when input is cleared (handled in handleInputChange now)
 
                 this.formatSwitcher.addEventListener('click', () => {
                     this.toggleFormat();
                 });
+            }
+            
+            setupAutoSaveListeners() {
+                // List of all settings fields that should auto-save
+                const settingsFields = [
+                    'advancedSettings',
+                    'integrationType', 
+                    'modelName',
+                    'maxTokens',
+                    'temperature',
+                    'apiUrl',
+                    'apiKey',
+                    'systemPrompt',
+                    'systemPromptSwitcher',
+                    'alwaysOnTop'
+                ];
+                
+                settingsFields.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        // Add change event listener
+                        element.addEventListener('change', () => {
+                            console.log(`Settings changed: ${id}`);
+                            this.saveSettings();
+                        });
+                        
+                        // For text inputs and textareas, also listen to input events for real-time saving
+                        if (element.type === 'text' || element.type === 'password' || element.type === 'number' || element.tagName === 'TEXTAREA') {
+                            element.addEventListener('input', () => {
+                                // Debounce input saving to avoid too frequent saves
+                                clearTimeout(this.saveTimeout);
+                                this.saveTimeout = setTimeout(() => {
+                                    console.log(`Settings input changed: ${id}`);
+                                    this.saveSettings();
+                                }, 500);
+                            });
+                        }
+                        
+                        console.log(`✅ Auto-save listener added for: ${id}`);
+                    } else {
+                        console.warn(`❌ Settings field not found: ${id}`);
+                    }
+                });
+            }
+            
+            setupSearchElementListeners(element) {
+                element.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        if (element === this.searchTextarea && !e.shiftKey) {
+                            // In textarea, Enter without Shift sends the message
+                            e.preventDefault();
+                            if (!this.isLoading) {
+                                this.handleSearch();
+                            }
+                        } else if (element === this.searchInput && !this.isLoading) {
+                            // In input, Enter always sends the message
+                            this.handleSearch();
+                        }
+                        // Shift+Enter in textarea creates new line (default behavior)
+                    }
+                });
+            }
+            
+            handleInputChange(e) {
+                const value = e.target.value;
+                const length = value.length;
+                
+                // Update styling based on length
+                if (length > 34) {
+                    e.target.classList.add('slim');
+                } else {
+                    e.target.classList.remove('slim');
+                }
+                
+                // Clear response when input is cleared
+                if (!value.trim() && this.responseContainer.classList.contains('visible')) {
+                    this.hideResponse();
+                    this.resizeWindow(700);
+                    setTimeout(() => {
+                        this.resizeWindow();
+                        this.response = '';
+                        this.rawResponse = '';
+                    }, 550);
+                }
+                
+                // Switch to textarea if length > 72 and currently using input
+                if (length > 72 && !this.isTextareaMode) {
+                    this.switchToTextarea(value);
+                }
+                // Switch back to input if length <= 72 and currently using textarea
+                else if (length <= 72 && this.isTextareaMode) {
+                    this.switchToInput(value);
+                }
+                
+                // Auto-resize textarea if in textarea mode
+                if (this.isTextareaMode) {
+                    this.autoResizeTextarea();
+                    // Resize window to accommodate new textarea height
+                    setTimeout(() => this.resizeWindow(), 0);
+                }
+            }
+            
+            switchToTextarea(value) {
+                const cursorPosition = this.searchInput.selectionStart;
+                
+                // Transfer value and styling
+                this.searchTextarea.value = value;
+                if (this.searchInput.classList.contains('slim')) {
+                    this.searchTextarea.classList.add('slim');
+                }
+                
+                // Switch visibility
+                this.searchInput.style.display = 'none';
+                this.searchTextarea.style.display = 'block';
+                
+                // Transfer focus and cursor position
+                this.searchTextarea.focus();
+                this.searchTextarea.setSelectionRange(cursorPosition, cursorPosition);
+                
+                this.currentSearchElement = this.searchTextarea;
+                this.isTextareaMode = true;
+                
+                // Auto-resize immediately
+                this.autoResizeTextarea();
+                this.resizeWindow();
+                
+                console.log('Switched to textarea mode');
+            }
+            
+            switchToInput(value) {
+                const cursorPosition = this.searchTextarea.selectionStart;
+                
+                // Transfer value and styling
+                this.searchInput.value = value;
+                if (this.searchTextarea.classList.contains('slim')) {
+                    this.searchInput.classList.add('slim');
+                } else {
+                    this.searchInput.classList.remove('slim');
+                }
+                
+                // Switch visibility
+                this.searchTextarea.style.display = 'none';
+                this.searchInput.style.display = 'block';
+                
+                // Transfer focus and cursor position
+                this.searchInput.focus();
+                this.searchInput.setSelectionRange(cursorPosition, cursorPosition);
+                
+                this.currentSearchElement = this.searchInput;
+                this.isTextareaMode = false;
+                
+                this.resizeWindow();
+                
+                console.log('Switched to input mode');
+            }
+            
+            autoResizeTextarea() {
+                const textarea = this.searchTextarea;
+                textarea.style.height = 'auto';
+                const scrollHeight = Math.min(textarea.scrollHeight, 200); // Max height 200px
+                textarea.style.height = Math.max(scrollHeight, 58) + 'px'; // Min height 58px
+            }
+            
+            getCurrentSearchValue() {
+                return this.currentSearchElement.value;
+            }
+            
+            clearCurrentSearch() {
+                this.currentSearchElement.value = '';
+                if (this.isTextareaMode) {
+                    this.switchToInput('');
+                }
+            }
+            
+            stopRequest() {
+                if (this.abortController) {
+                    this.abortController.abort();
+                    this.abortController = null;
+                }
+                
+                this.hideLoading();
+                this.hideStopButton();
+                this.speedIndicator.textContent = 'Остановлено';
+                
+                // Show clear button after showing cancelled message
+                setTimeout(() => {
+                    this.showClearButton();
+                }, 300);
+                
+                this.resizeWindow();
+                console.log('🛑 Request stopped by user');
+            }
+            
+            clearResponse() {
+                // Clear the response
+                this.responseContainer.classList.remove('visible');
+                this.responseContent.innerHTML = '';
+                this.hideClearButton();
+                
+                // Clear the search input/textarea and return to input mode
+                this.clearCurrentSearch();
+                
+                // Reset response data
+                this.rawResponse = '';
+                this.response = '';
+                
+                // Reset speed indicator
+                this.speedIndicator.textContent = '';
+                
+                // Focus back to search
+                setTimeout(() => {
+                    this.focusInput();
+                }, 100);
+                
+                this.resizeWindow();
+                console.log('🧹 Response cleared by user');
+            }
+            
+            showStopButton() {
+                this.stopBtn.classList.add('visible');
+                this.clearBtn.classList.remove('visible');
+            }
+            
+            hideStopButton() {
+                this.stopBtn.classList.remove('visible');
+            }
+            
+            showClearButton() {
+                this.clearBtn.classList.add('visible');
+                this.stopBtn.classList.remove('visible');
+            }
+            
+            hideClearButton() {
+                this.clearBtn.classList.remove('visible');
+            }
+            
+            setupAdvancedToggleHandler() {
+                document.getElementById('advancedSettings').addEventListener('change', () => {
+                    this.toggleAdvancedSettings();
+                    this.updateModelField();
+                    this.saveSettings();
+                });
+            }
+            
+            setupIntegrationTypeHandler() {
+                document.getElementById('integrationType').addEventListener('change', () => {
+                    this.updateAPIUrlByIntegrationType();
+                    this.toggleAPIKeyVisibility();
+                    this.saveSettings();
+                    // Reload models for the new integration type
+                    this.loadAvailableModels(document.getElementById('integrationType').value);
+                });
+            }
+            
+            toggleAdvancedSettings() {
+                const isAdvanced = document.getElementById('advancedSettings').checked;
+                const advancedSection = document.getElementById('advancedSettingsSection');
+                
+                // Advanced settings complement basic settings, don't replace them
+                if (isAdvanced) {
+                    advancedSection.style.display = 'block';
+                } else {
+                    advancedSection.style.display = 'none';
+                }
+
+                this.resizeWindow(700)
+                setTimeout(() => {
+                    this.resizeWindow()
+                }, 500)
+            }
+            
+            updateModelField() {
+                const modelName = document.getElementById('modelName');
+                
+                // Save settings after updating field visibility
+                this.saveSettings();
+            }
+            
+            updateAPIUrlByIntegrationType() {
+                const type = document.getElementById('integrationType').value;
+                const apiUrlInput = document.getElementById('apiUrl');
+                
+                // Update default API URL based on integration type
+                const defaultUrls = {
+                    'lmstudio': 'http://localhost:1234/v1/chat/completions',
+                    'ollama': 'http://localhost:11434/api/chat',
+                    'openai': 'https://api.openai.com/v1/chat/completions',
+                    'custom': apiUrlInput.value // Keep current value for custom
+                };
+                
+                if (type !== 'custom' && (!apiUrlInput.value || Object.values(defaultUrls).includes(apiUrlInput.value))) {
+                    apiUrlInput.value = defaultUrls[type];
+                }
+            }
+            
+            toggleAPIKeyVisibility() {
+                const type = document.getElementById('integrationType').value;
+                const apiKeyRow = document.getElementById('apiKeyRow');
+                
+                // Show API key field for OpenAI and custom integrations
+                if (type === 'openai' || type === 'custom') {
+                    apiKeyRow.style.display = 'flex';
+                } else {
+                    apiKeyRow.style.display = 'none';
+                }
+            }
+            
+            async applyAlwaysOnTopSetting() {
+                try {
+                    await this.invokeCommand('set_always_on_top', { 
+                        enabled: this.settings.alwaysOnTop 
+                    });
+                    console.log('✅ Always on top setting applied:', this.settings.alwaysOnTop);
+                } catch (error) {
+                    console.error('❌ Failed to apply always on top setting:', error);
+                }
             }
 
             setupKeyboardShortcuts() {
@@ -673,7 +1341,7 @@
             }
 
             async handleSearch() {
-                const query = this.searchInput.value.trim();
+                const query = this.getCurrentSearchValue().trim();
                 if (!query) return;
 
                 console.log('🔍 Starting search:', query);
@@ -681,18 +1349,29 @@
                 // Disable click-through during search
                 await this.invokeCommand('set_window_click_through', { enabled: false });
 
+                // Create new abort controller for this request
+                this.abortController = new AbortController();
+                
                 this.showLoading();
                 this.startTime = Date.now();
                 
                 try {
                     const response = await this.queryLMStudio(query);
-                    const responseTime = Date.now() - this.startTime;
-                    await this.showResponse(response);
-                    this.showSpeed(responseTime, response.length);
+                    if (this.abortController && !this.abortController.signal.aborted) {
+                        const responseTime = Date.now() - this.startTime;
+                        await this.showResponse(response);
+                        this.showSpeed(responseTime, response.length);
+                    }
                 } catch (error) {
+                    if (error.name === 'AbortError') {
+                        console.log('🛑 Request was aborted');
+                        return; // Don't show error for user cancellation
+                    }
                     console.error('Search error:', error);
                     await this.showError(error.message);
                     this.speedIndicator.textContent = 'Ошибка';
+                } finally {
+                    this.abortController = null;
                 }
             }
 
@@ -714,8 +1393,27 @@
                     content: message
                 });
 
-                console.log(messages);
+                console.log('Messages:', messages);
+                console.log('Integration type:', this.settings.integrationType);
 
+                try {
+                    switch (this.settings.integrationType) {
+                        case 'lmstudio':
+                            return await this.queryLMStudioAPI(messages);
+                        case 'ollama':
+                            return await this.queryOllamaAPI(messages);
+                        case 'openai':
+                        case 'custom':
+                            return await this.queryOpenAIAPI(messages);
+                        default:
+                            throw new Error('Неизвестный тип интеграции');
+                    }
+                } catch (error) {
+                    throw error;
+                }
+            }
+            
+            async queryLMStudioAPI(messages) {
                 const requestBody = {
                     model: this.settings.model,
                     messages: messages,
@@ -730,7 +1428,8 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(requestBody)
+                        body: JSON.stringify(requestBody),
+                        signal: this.abortController ? this.abortController.signal : undefined
                     });
 
                     if (!response.ok) {
@@ -742,10 +1441,98 @@
 
                     const data = await response.json();
                     return data.choices[0].message.content;
-
                 } catch (error) {
                     if (error.name === 'TypeError' && error.message.includes('fetch')) {
                         throw new Error('Невозможно подключиться к LM Studio. Убедитесь, что сервер запущен');
+                    }
+                    throw error;
+                }
+            }
+            
+            async queryOllamaAPI(messages) {
+                // Convert messages format for Ollama
+                const ollamaMessages = messages.map(msg => ({
+                    role: msg.role,
+                    content: msg.content
+                }));
+                
+                const requestBody = {
+                    model: this.settings.model,
+                    messages: ollamaMessages,
+                    stream: false,
+                    options: {
+                        temperature: this.settings.temperature,
+                        num_predict: this.settings.maxTokens
+                    }
+                };
+
+                try {
+                    const response = await fetch(this.settings.apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody),
+                        signal: this.abortController ? this.abortController.signal : undefined
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error('Ollama не запущен или API недоступен');
+                        }
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    return data.message.content;
+                } catch (error) {
+                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                        throw new Error('Невозможно подключиться к Ollama. Убедитесь, что сервер запущен');
+                    }
+                    throw error;
+                }
+            }
+            
+            async queryOpenAIAPI(messages) {
+                const requestBody = {
+                    model: this.settings.model,
+                    messages: messages,
+                    temperature: this.settings.temperature,
+                    max_tokens: this.settings.maxTokens,
+                    stream: false
+                };
+
+                const headers = {
+                    'Content-Type': 'application/json',
+                };
+                
+                if (this.settings.apiKey) {
+                    headers['Authorization'] = `Bearer ${this.settings.apiKey}`;
+                }
+
+                try {
+                    const response = await fetch(this.settings.apiUrl, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(requestBody),
+                        signal: this.abortController ? this.abortController.signal : undefined
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            throw new Error('Неверный API ключ');
+                        }
+                        if (response.status === 404) {
+                            throw new Error('API недоступен или неверный URL');
+                        }
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                } catch (error) {
+                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                        throw new Error('Невозможно подключиться к API. Проверьте подключение');
                     }
                     throw error;
                 }
@@ -755,6 +1542,7 @@
                 this.isLoading = true;
                 this.loadingIndicator.style.display = 'block';
                 this.speedIndicator.textContent = 'Думаю...';
+                this.showStopButton();
                 this.hideResponse();
                 this.resizeWindow()
             }
@@ -762,6 +1550,7 @@
             hideLoading() {
                 this.isLoading = false;
                 this.loadingIndicator.style.display = 'none';
+                this.hideStopButton();
                 this.resizeWindow()
             }
 
@@ -778,6 +1567,11 @@
                 
                 this.responseContainer.classList.add('visible');
                 
+                // Show clear button after response is shown
+                setTimeout(() => {
+                    this.showClearButton();
+                }, 300);
+                
                 // Reset animation
                 this.responseContent.style.animation = 'none';
                 setTimeout(() => {
@@ -791,7 +1585,6 @@
                 }, 10);
 
                 // Auto-resize window and keep click-through disabled
-                // await this.resizeWindow(this.settingsVisible ? 550 : 450);
                 await this.invokeCommand('set_window_click_through', { enabled: false });
             }
 
@@ -802,14 +1595,18 @@
                 this.responseContent.innerHTML = errorHtml;
                 this.responseContainer.classList.add('visible');
                 
-                // await this.resizeWindow(this.settingsVisible ? 550 : 350);
+                // Show clear button after error is shown
+                setTimeout(() => {
+                    this.showClearButton();
+                }, 300);
+                
                 this.resizeWindow()
                 await this.invokeCommand('set_window_click_through', { enabled: false });
             }
 
             async hideResponse() {
                 this.responseContainer.classList.remove('visible');
-                // await this.resizeWindow(this.settingsVisible ? 550 : 200);
+                this.hideClearButton();
                 this.resizeWindow()
                 
                 // Re-enable click-through if no settings are open
@@ -834,26 +1631,30 @@
                     .replace(/'/g, '&#39;')
                     .replace(/\n/g, '<br>');
                 } else if (this.responseType === 'formatted') {
-                    return text
-                    .replace(/\n\n/g, '</p><p>')
-                    .replace(/\n/g, '<br>')
-                    .replace(/```(\w+)?<br>?([\s\S]*?)```/g, (match, language, code) => {
-                        const cleanCode = code.replace(/<br>/g, '\n').replace(/<\/p><p>/g, '\n\n');
-                        
-                        const langLabel = language 
-                            ? `<div style="background: rgba(0,0,0,0.2); padding: 4px 8px; font-size: 12px; color: rgba(255,255,255,0.7); border-radius: 4px 4px 0 0; font-family: monospace;margin-top:16px; margin-bottom: -16px;">${language}</div>` 
-                            : '';
-                        const codeStyle = language 
-                            ? 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 0 0 4px 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;'
-                            : 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;';
-                        
-                        return `${langLabel}<code style="${codeStyle}">${cleanCode.trim()}</code>`;
-                    })
-                    .replace(/`([^`<]*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/^/, '<p>')
-                    .replace(/$/, '</p>');
+                    const escapeHtml = (text) => text.replace(/[&<>"']/g, match => ({
+                        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                    })[match]);
+
+                    return escapeHtml(text)
+                        .replace(/\n\n/g, '</p><p>')
+                        .replace(/\n/g, '<br>')
+                        .replace(/```(\w+)?<br>?([\s\S]*?)```/g, (match, language, code) => {
+                            const cleanCode = code.replace(/<br>/g, '\n').replace(/<\/p><p>/g, '\n\n');
+                            
+                            const langLabel = language 
+                                ? `<div style="background: rgba(0,0,0,0.2); padding: 4px 8px; font-size: 12px; color: rgba(255,255,255,0.7); border-radius: 4px 4px 0 0; font-family: monospace;margin-top:16px; margin-bottom: -16px;">${language}</div>` 
+                                : '';
+                            const codeStyle = language 
+                                ? 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 0 0 4px 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;'
+                                : 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;';
+                            
+                            return `${langLabel}<code style="${codeStyle}">${cleanCode.trim()}</code>`;
+                        })
+                        .replace(/`([^`<]*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/^/, '<p>')
+                        .replace(/$/, '</p>');
                 }
                 
             }
@@ -868,6 +1669,108 @@
                 }
 
                 this.showResponse(this.rawResponse);
+            }
+            
+            async loadAvailableModels(integrationType) {
+                const modelSelect = document.getElementById('modelName');
+                
+                modelSelect.innerHTML = ''; // Clear existing options
+                this.availableModels = [];
+                
+                try {
+                    let modelsUrl;
+                    let models = [];
+                    
+                    switch (integrationType) {
+                        case 'lmstudio':
+                            modelsUrl = 'http://localhost:1234/v1/models';
+                            break;
+                        case 'ollama':
+                            modelsUrl = 'http://localhost:11434/api/tags';
+                            break;
+                        case 'openai':
+                            // OpenAI models are predefined
+                            models = ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo', 'gpt-3.5-turbo-16k'];
+                            break;
+                        default:
+                            console.log('⚠️ No model loading for custom integration');
+                            return;
+                    }
+                    
+                    if (integrationType === 'openai') {
+                        this.availableModels = models;
+                    } else {
+                        const response = await fetch(modelsUrl);
+                        if (response.ok) {
+                            const data = await response.json();
+                            
+                            if (integrationType === 'lmstudio') {
+                                console.log('✅ LM Studio connected. Available models:', data.data?.length || 0);
+                                this.availableModels = data.data?.map(model => model.id) || [];
+                            } else if (integrationType === 'ollama') {
+                                console.log('✅ Ollama connected. Available models:', data.models?.length || 0);
+                                this.availableModels = data.models?.map(model => model.name) || [];
+                            }
+                        } else {
+                            console.log(`⚠️ ${integrationType} unavailable (HTTP ${response.status})`);
+                            return;
+                        }
+                    }
+                    
+                    // Populate datalist for advanced mode
+                    this.availableModels.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model;
+                    });
+                    
+                    // Populate select for basic mode
+                    this.availableModels.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelSelect.appendChild(option);
+                    });
+                    
+                    // Set current model if it exists in the list
+                    if (this.availableModels.includes(this.settings.model)) {
+                        modelSelect.value = this.settings.model;
+                    } else if (this.availableModels.length > 0) {
+                        // If current model is not available, use the first one
+                        modelSelect.value = this.availableModels[0];
+                        document.getElementById('modelName').value = this.availableModels[0];
+                    }
+                    
+                    this.updateModelField(); // Update field visibility
+                    console.log('✅ Models loaded:', this.availableModels.length);
+                    
+                } catch (error) {
+                    console.log(`⚠️ ${integrationType} connection failed:`, error.message);
+                    if (integrationType === 'lmstudio') {
+                        console.log('💡 Make sure LM Studio is running on port 1234');
+                    } else if (integrationType === 'ollama') {
+                        console.log('💡 Make sure Ollama is running on port 11434');
+                    }
+                    this.updateModelField(); // Update field even on error
+                }
+            }
+            
+            setupTooltips() {
+                const tooltips = document.querySelectorAll('.tooltip');
+                const tooltipArea = document.getElementById('tooltipArea');
+                
+                tooltips.forEach(tooltip => {
+                    tooltip.addEventListener('mouseenter', () => {
+                        const text = tooltip.getAttribute('data-tooltip');
+                        if (text) {
+                            tooltipArea.textContent = text;
+                            tooltipArea.classList.add('visible');
+                        }
+                    });
+                    
+                    tooltip.addEventListener('mouseleave', () => {
+                        tooltipArea.classList.remove('visible');
+                    });
+                });
             }
 
 
@@ -896,40 +1799,11 @@
                 }
             }
 
-            setupWindowFocusHandler() {
-                let hideTimeout;
-
-                window.addEventListener('blur', () => {
-                    console.log('🔍 Window lost focus');
-                    
-                    // Очищаем предыдущий таймер
-                    if (hideTimeout) {
-                        clearTimeout(hideTimeout);
-                    }
-                    
-                    // Скрываем окно через небольшую задержку
-                    hideTimeout = setTimeout(() => {
-                        // Проверяем, что окно все еще не в фокусе и настройки не открыты
-                        if (!document.hasFocus() && !this.settingsVisible) {
-                            console.log('👋 Hiding window due to focus loss');
-                            this.closeApp();
-                        }
-                    }, 150);
-                });
-
-                window.addEventListener('focus', () => {
-                    console.log('👁️ Window gained focus');
-                    
-                    // Отменяем скрытие если окно снова получило фокус
-                    if (hideTimeout) {
-                        clearTimeout(hideTimeout);
-                        hideTimeout = null;
-                    }
-                });
-            }
+            // This function is replaced by the improved version below
 
             setupClickOutsideHandler() {
-                document.addEventListener('click', (event) => {
+                // Change to mousedown to prevent issues with text selection
+                document.addEventListener('mousedown', (event) => {
                     const spotlightContainer = document.querySelector('.spotlight-container');
                     
                     if (!spotlightContainer) return;
@@ -940,6 +1814,9 @@
                     
                     // Не скрываем если настройки открыты
                     if (this.settingsVisible) return;
+                    
+                    // Не скрываем во время загрузки
+                    if (this.isLoading) return;
                     
                     // Проверяем клик вне контейнера
                     const isClickInside = spotlightContainer.contains(event.target);
@@ -953,56 +1830,99 @@
 
             setupWindowFocusHandler() {
                 let hideTimeout;
-                let isWindowShowing = false; // Флаг для отслеживания процесса показа окна
-
-                window.addEventListener('blur', () => {
-                    console.log('🔍 Window lost focus, isWindowShowing:', isWindowShowing);
-                    
-                    // Игнорируем blur если окно только показывается
-                    if (isWindowShowing) {
-                        console.log('⏳ Ignoring blur - window is showing');
+                let isWindowShowing = false;
+                let lastBlurTime = 0;
+                
+                // Improved focus loss detection
+                const checkFocusLoss = () => {
+                    // Don't hide if settings are open or loading
+                    if (this.settingsVisible || this.isLoading) {
                         return;
                     }
                     
-                    // Очищаем предыдущий таймер
+                    // Don't hide if window is still showing (startup phase)
+                    if (isWindowShowing) {
+                        return;
+                    }
+                    
+                    // Check if document still has focus
+                    if (!document.hasFocus()) {
+                        console.log('👋 Hiding window due to confirmed focus loss');
+                        this.closeApp();
+                    }
+                };
+
+                window.addEventListener('blur', (e) => {
+                    const currentTime = Date.now();
+                    lastBlurTime = currentTime;
+                    
+                    console.log('🔍 Window blur event, isWindowShowing:', isWindowShowing);
+                    
+                    // Ignore blur events during window showing phase
+                    if (isWindowShowing) {
+                        console.log('⏳ Ignoring blur - window is initializing');
+                        return;
+                    }
+                    
+                    // Clear any existing timeout
                     if (hideTimeout) {
                         clearTimeout(hideTimeout);
                     }
                     
-                    // Скрываем окно через задержку
+                    // Use longer delay to prevent accidental closures
                     hideTimeout = setTimeout(() => {
-                        if (!document.hasFocus() && !this.settingsVisible && !isWindowShowing) {
-                            console.log('👋 Hiding window due to focus loss');
-                            this.closeApp();
+                        // Double-check if this timeout is still relevant
+                        if (lastBlurTime === currentTime) {
+                            checkFocusLoss();
                         }
-                    }, 200);
+                    }, 300); // Increased delay
                 });
 
                 window.addEventListener('focus', () => {
                     console.log('👁️ Window gained focus');
                     
-                    // Отменяем скрытие
+                    // Cancel any pending hide
                     if (hideTimeout) {
                         clearTimeout(hideTimeout);
                         hideTimeout = null;
                     }
                     
-                    // Убираем флаг показа окна
+                    // Clear window showing flag
                     isWindowShowing = false;
                     
-                    // Фокусируем input
+                    // Focus the current search element
                     setTimeout(() => {
-                        if (this.searchInput && !this.settingsVisible) {
-                            this.searchInput.focus();
-                            console.log('🎯 Input focused after window focus');
+                        if (this.currentSearchElement && !this.settingsVisible) {
+                            this.currentSearchElement.focus();
+                            console.log('🎯 Search element focused after window focus');
                         }
                     }, 50);
                 });
+                
+                // Handle visibility changes (better detection)
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        console.log('📋 Document became hidden');
+                        if (!this.settingsVisible && !this.isLoading && !isWindowShowing) {
+                            setTimeout(() => {
+                                if (document.hidden) {
+                                    this.closeApp();
+                                }
+                            }, 500);
+                        }
+                    } else {
+                        console.log('📋 Document became visible');
+                        if (hideTimeout) {
+                            clearTimeout(hideTimeout);
+                            hideTimeout = null;
+                        }
+                    }
+                });
 
-                // Метод для установки состояния показа окна  
+                // Method for setting window showing state  
                 this.setWindowShowing = (showing) => {
                     isWindowShowing = showing;
-                    console.log('🪟 Window showing state:', showing);
+                    console.log('🪟 Window showing state changed:', showing);
                     
                     if (showing && hideTimeout) {
                         clearTimeout(hideTimeout);
@@ -1012,7 +1932,7 @@
             }
 
             focusInput() {
-                if (!this.searchInput) return;
+                if (!this.currentSearchElement) return;
                 
                 // Устанавливаем флаг показа окна
                 if (this.setWindowShowing) {
@@ -1020,16 +1940,16 @@
                 }
                 
                 // Немедленная попытка фокуса
-                this.searchInput.focus();
+                this.currentSearchElement.focus();
                 
                 // Дополнительные попытки для надежности
                 const focusAttempts = [50, 150, 250];
                 
                 focusAttempts.forEach(delay => {
                     setTimeout(() => {
-                        if (this.searchInput && !this.settingsVisible) {
-                            this.searchInput.focus();
-                            console.log(`🎯 Input focus attempt at ${delay}ms`);
+                        if (this.currentSearchElement && !this.settingsVisible) {
+                            this.currentSearchElement.focus();
+                            console.log(`🎯 Search element focus attempt at ${delay}ms`);
                         }
                     }, delay);
                 });
@@ -1092,6 +2012,7 @@
             // Initialize app regardless
             console.log('🎯 Creating SpotlightApp instance...');
             const app = new SpotlightApp();
+            window.spotlightApp = app; // Make it globally accessible
             
             // Test invoke function
             if (invoke) {
@@ -1137,32 +2058,18 @@
             initApp();
         }
 
-        // Test connection on load
+        // Test connection and load models on load
         window.addEventListener('load', async () => {
-            console.log('📡 Testing LM Studio connection...');
+            console.log('📡 Testing API connection...');
             
             // Wait a bit for everything to initialize
             await new Promise(resolve => setTimeout(resolve, 1000));
             
-            try {
-                const response = await fetch('http://localhost:1234/v1/models');
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('✅ LM Studio connected. Available models:', data.data.length);
-                    const datalist = document.getElementById('models');
-                    data.data.forEach(model => {
-                        const option = document.createElement('option');
-                        option.value = model.id;
-                        datalist.appendChild(option);
-                    });
-                    console.log('✅ Models loaded into datalist');
-                } else {
-                    console.log('⚠️ LM Studio unavailable (HTTP ' + response.status + ')');
-                }
-            } catch (error) {
-                console.log('⚠️ LM Studio connection failed:', error.message);
-                console.log('💡 Make sure LM Studio is running on port 1234');
-            }
+            // Load models based on integration type
+            const settings = JSON.parse(localStorage.getItem('spotlight-settings') || '{}');
+            const integrationType = settings.integrationType || 'lmstudio';
+            
+            await window.spotlightApp?.loadAvailableModels(integrationType);
         });
 
         // Debug: Log window object contents

@@ -41,11 +41,11 @@ fn set_click_through(window: &Window, enabled: bool) -> Result<(), Box<dyn std::
                     new_style as isize,
                 );
                 
-                println!("Click-through {}: style changed from {:x} to {:x}", 
-                    if enabled { "enabled" } else { "disabled" }, 
-                    ex_style, 
-                    new_style
-                );
+                // println!("Click-through {}: style changed from {:x} to {:x}", 
+                //     if enabled { "enabled" } else { "disabled" }, 
+                //     ex_style, 
+                //     new_style
+                // );
             }
             
             Ok(())
@@ -91,6 +91,30 @@ async fn set_window_focus(window: Window) -> Result<(), String> {
     window.set_focus().map_err(|e| e.to_string())
 }
 
+#[tauri::command]
+async fn set_always_on_top(window: Window, enabled: bool) -> Result<(), String> {
+    window.set_always_on_top(enabled).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn bring_window_to_front(window: Window) -> Result<(), String> {
+    // Show window if hidden
+    if !window.is_visible().map_err(|e| e.to_string())? {
+        window.show().map_err(|e| e.to_string())?;
+    }
+    
+    // Bring to front and focus
+    window.set_focus().map_err(|e| e.to_string())?;
+    window.unminimize().map_err(|e| e.to_string())?;
+    
+    #[cfg(target_os = "windows")]
+    {
+        let _ = set_click_through(&window, false);
+    }
+    
+    Ok(())
+}
+
 fn main() {
     let quit = CustomMenuItem::new("quit".to_string(), "Quit");
     let show = CustomMenuItem::new("show".to_string(), "Show Spotlight");
@@ -105,7 +129,9 @@ fn main() {
             resize_window,
             hide_main_window,
             show_main_window,
-            set_window_focus
+            set_window_focus,
+            set_always_on_top,
+            bring_window_to_front
         ])
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {
@@ -177,17 +203,36 @@ static FIRST_SHOW: AtomicBool = AtomicBool::new(true);
 fn toggle_window(app: &AppHandle) {
     let window = app.get_window("main").unwrap();
     if window.is_visible().unwrap() {
-        window.hide().unwrap();
-        
-        #[cfg(target_os = "windows")]
-        {
-            let _ = set_click_through(&window, true);
+        // If window is visible, check if it's focused
+        if window.is_focused().unwrap_or(false) {
+            // If focused, hide it
+            window.hide().unwrap();
+            
+            #[cfg(target_os = "windows")]
+            {
+                let _ = set_click_through(&window, true);
+            }
+            println!("🫥 Window hidden");
+        } else {
+            // If not focused, bring to front instead of hiding
+            #[cfg(target_os = "windows")]
+            {
+                let _ = set_click_through(&window, false);
+            }
+            
+            let _ = window.set_focus();
+            let _ = window.unminimize();
+            println!("📍 Window brought to front");
         }
     } else {
         #[cfg(target_os = "windows")]
         {
             let _ = set_click_through(&window, false);
         }
+        
+        // Set focus and bring to front BEFORE showing to avoid animation behind other windows
+        let _ = window.set_focus();
+        let _ = window.unminimize();
         
         window.show().unwrap();
         
@@ -200,9 +245,9 @@ fn toggle_window(app: &AppHandle) {
             println!("📍 Window shown at current position");
         }
         
-        // Фокус в отдельном потоке
+        // Ensure focus again after show
         std::thread::spawn(move || {
-            std::thread::sleep(std::time::Duration::from_millis(100));
+            std::thread::sleep(std::time::Duration::from_millis(50));
             let _ = window.set_focus();
         });
     }

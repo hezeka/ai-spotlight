@@ -6,3 +6,4 @@ src-tauri/target/debug/
 # Игнорировать все содержимое папки release, кроме bundle
 src-tauri/target/release/
 !src-tauri/target/release/bundle/
+CLAUDE.md

@@ -486,6 +486,162 @@
             border-radius: 18px;
         }
 
+        /* Markdown Formatting Styles */
+        .md-h1 { color: white; font-size: 26px; margin: 24px 0 16px 0; font-weight: 600; }
+        .md-h2 { color: rgba(255,255,255,0.95); font-size: 18px; margin: 22px 0 12px 0; font-weight: 600; }
+        .md-h3 { color: rgba(255,255,255,0.9); font-size: 16px; margin: 18px 0 8px 0; font-weight: 600; }
+        .md-h4 { color: rgba(255,255,255,0.9); font-size: 14px; margin: 16px 0 8px 0; font-weight: 600; }
+        .md-h5 { color: rgba(255,255,255,0.9); font-size: 12px; margin: 14px 0 8px 0; font-weight: 600; }
+        .md-h6 { color: rgba(255,255,255,0.9); font-size: 12px; margin: 14px 0 8px 0; font-weight: 600; }
+        
+        .md-paragraph { margin: 12px 0; color: rgba(255,255,255,0.9); line-height: 1.5; }
+        .md-strong { color: rgba(255,255,255,0.95); font-weight: bold; }
+        .md-em { color: rgba(255,255,255,0.9); font-style: italic; }
+
+        .md-cit {
+            color: rgba(255,255,255,0.2);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.108);
+            font-style: italic;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: block;
+        }
+        
+        .md-code-inline { 
+            background: rgba(255,255,255,0.1); 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            font-size: 13px; 
+            color: rgba(255,255,255,0.95);
+        }
+        
+        .md-code-block {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            display: block;
+            white-space: pre-wrap;
+            margin: 16px 0;
+            overflow-x: auto;
+            color: rgba(255,255,255,0.95);
+        }
+        
+        .md-code-block.has-language {
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .md-code-label {
+            background: rgba(0,0,0,0.2);
+            padding: 4px 8px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            border-radius: 4px 4px 0 0;
+            font-family: monospace;
+            margin-top: 16px;
+            margin-bottom: -16px;
+        }
+        
+        .md-list { margin: 8px 0; padding-left: 20px; }
+        .md-list-item { margin: 4px 0; color: rgba(255,255,255,0.9); }
+        
+        .md-blockquote {
+            margin: 16px 0;
+            padding: 12px 16px;
+            border-left: 4px solid rgba(100, 150, 200, 0.6);
+            background: rgba(100, 150, 200, 0.05);
+            color: rgba(200, 220, 240, 0.9);
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .md-table-wrapper {
+            overflow-x: auto;
+            margin: 16px 0;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .md-table {
+            border-collapse: collapse;
+            width: 100%;
+            /* margin: 16px 0; */
+            background: rgba(255,255,255,0.02);
+            border-radius: 6px;
+            overflow-y: auto;
+        }
+        
+        .md-table th {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: rgba(255,255,255,0.95);
+            border-bottom: 2px solid rgba(255,255,255,0.15);
+        }
+        
+        .md-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .md-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .md-table tr:nth-child(even) {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .md-hr {
+            margin: 20px 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+        
+        .md-link {
+            color: rgba(120, 180, 255, 0.9);
+            text-decoration: underline;
+            text-decoration-color: rgba(120, 180, 255, 0.4);
+        }
+        
+        .md-link:hover {
+            color: rgba(150, 200, 255, 1);
+            text-decoration-color: rgba(150, 200, 255, 0.6);
+        }
+        
+        .md-strikethrough {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .md-ul .md-ul, .md-ol .md-ol, .md-ul .md-ol, .md-ol .md-ul {
+            margin: 4px 0;
+            padding-left: 20px;
+        }
+
+        .md-ol {
+            padding-left: 30px;
+        }
+
+        .md-ul {
+            padding-left: 30px;
+        }
+        
+        .md-inline-code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
         .switch {
             display: flex;
             align-items: center;
@@ -682,8 +838,10 @@
                     <div class="tooltip" data-tooltip="Название модели для генерации ответов. Автоматически загружается список доступных моделей.">?</div>
                 </label>
                 <div id="modelFieldContainer">
-                    <select class="settings-select" id="modelName">
+                    <input type="text" class="settings-input" id="modelName" placeholder="Название модели" list="models" style="display: none;">
+                    <select class="settings-select" id="modelSelect" style="display: block;">
                     </select>
+                    <datalist id="models"></datalist>
                 </div>
             </div>
             <div class="settings-row">
@@ -747,6 +905,26 @@
                     </div>
                     <div class="settings-row">
                         <label class="settings-label">
+                            Stream Mode:
+                            <div class="tooltip" data-tooltip="Включает потоковый режим: текст появляется по мере генерации после 2-секундной задержки. Выключено = весь ответ показывается сразу после генерации.">?</div>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" id="streamMode" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="settings-row">
+                        <label class="settings-label">
+                            Следящая прокрутка:
+                            <div class="tooltip" data-tooltip="Автоматически прокручивает ответ вниз по мере его поступления, если пользователь уже прокрутил в самый низ. Работает только при включенном Stream Mode.">?</div>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" id="autoScroll" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="settings-row">
+                        <label class="settings-label">
                             Поверх других окон:
                             <div class="tooltip red" data-tooltip="Не рекомендуется включать, если вы играете в игры с жёстким античитом! (риск бана)">?</div>
                         </label>
@@ -754,6 +932,9 @@
                             <input type="checkbox" id="alwaysOnTop">
                             <span class="slider round red"></span>
                         </label>
+                    </div>
+                    <div class="settings-row">
+                        <button id="testMDbutton">Test MD</button>
                     </div>
                 </div>
             </div>
@@ -799,7 +980,6 @@
 
         class SpotlightApp {
             constructor() {
-                alert('Debug: SpotlightApp constructor started');
                 this.searchInput = document.getElementById('searchInput');
                 this.searchTextarea = document.getElementById('searchTextarea');
                 this.loadingIndicator = document.getElementById('loadingIndicator');
@@ -826,10 +1006,11 @@
                 this.modelSaveTimeout = null;
 
                 this.hideTooltipTimeout = null;
+                this.shouldAutoScroll = true; // Track if we should auto-scroll
+                this.lastScrollTop = 0; // Track scroll position to detect direction
 
                 this.loadSettings();
                 this.init();
-                alert('Debug: SpotlightApp constructor finished');
             }
 
             init() {
@@ -869,7 +1050,7 @@
                 
                 try {
                     const result = await invoke(command, args);
-                    console.log(`✅ Command ${command} executed successfully`, args);
+                    // console.log(`✅ Command ${command} executed successfully`, args);
                     return result;
                 } catch (error) {
                     console.error(`❌ Error invoking ${command}:`, error, args);
@@ -888,6 +1069,8 @@
                     apiKey: '',
                     systemPrompt: '',
                     systemPromptSwitcher: false,
+                    streamMode: true,
+                    autoScroll: true,
                     alwaysOnTop: false
                 };
 
@@ -897,18 +1080,24 @@
                 this.setupAdvancedToggleHandler();
                 this.setupIntegrationTypeHandler();
                 this.setupTooltips();
+                
+                // Load models for current integration type on startup
+                this.loadAvailableModels(this.settings.integrationType);
             }
 
             setupInputsBySettings() {
                 document.getElementById('advancedSettings').checked = this.settings.advancedSettings;
                 document.getElementById('integrationType').value = this.settings.integrationType;
                 document.getElementById('modelName').value = this.settings.model;
+                document.getElementById('modelSelect').value = this.settings.model;
                 document.getElementById('maxTokens').value = this.settings.maxTokens;
                 document.getElementById('temperature').value = this.settings.temperature;
                 document.getElementById('apiUrl').value = this.settings.apiUrl;
                 document.getElementById('apiKey').value = this.settings.apiKey;
                 document.getElementById('systemPrompt').value = this.settings.systemPrompt;
                 document.getElementById('systemPromptSwitcher').checked = this.settings.systemPromptSwitcher;
+                document.getElementById('streamMode').checked = this.settings.streamMode;
+                document.getElementById('autoScroll').checked = this.settings.autoScroll;
                 document.getElementById('alwaysOnTop').checked = this.settings.alwaysOnTop;
                 
                 this.toggleAdvancedSettings();
@@ -932,13 +1121,24 @@
                 const oldAlwaysOnTop = this.settings.alwaysOnTop;
                 const isAdvanced = document.getElementById('advancedSettings').checked;
                 
-                // Get model value from the currently active/visible field
+                // Get model value from the currently visible field
                 let modelValue = '';
                 const modelInput = document.getElementById('modelName');
+                const modelSelect = document.getElementById('modelSelect');
                 
-                modelValue = modelInput.value
+                if (modelInput && modelInput.style.display !== 'none') {
+                    // Input field is visible - use its value
+                    modelValue = modelInput.value || '';
+                } else if (modelSelect && modelSelect.style.display !== 'none') {
+                    // Select field is visible - use its value
+                    modelValue = modelSelect.value || '';
+                } else {
+                    // Fallback: get value from whichever field has content
+                    modelValue = (modelInput && modelInput.value) || (modelSelect && modelSelect.value) || '';
+                }
                 
                 this.settings = {
+                    advancedSettings: isAdvanced,
                     integrationType: document.getElementById('integrationType').value,
                     model: modelValue,
                     maxTokens: parseInt(document.getElementById('maxTokens').value) || 1000,
@@ -947,6 +1147,8 @@
                     apiKey: document.getElementById('apiKey').value || '',
                     systemPrompt: document.getElementById('systemPrompt').value || '',
                     systemPromptSwitcher: document.getElementById('systemPromptSwitcher').checked || false,
+                    streamMode: document.getElementById('streamMode').checked || false,
+                    autoScroll: document.getElementById('autoScroll').checked || false,
                     alwaysOnTop: document.getElementById('alwaysOnTop').checked || false
                 };
 
@@ -1001,6 +1203,146 @@
                 this.formatSwitcher.addEventListener('click', () => {
                     this.toggleFormat();
                 });
+
+                document.getElementById('testMDbutton').addEventListener('click', () => {
+                    const mdTest = `# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+Кроме того, H1 и H2 можно обозначить подчеркиванием:
+
+Alt-H1
+======
+
+Alt-H2
+------
+
+
+Курсив обозначается *звездочками* или _подчеркиванием_.
+
+Полужирный шрифт - двойными **звездочками** или __подчеркиванием__.
+
+Комбинированное выделение **звездочками и _подчеркиванием_**.
+
+Для зачеркнутого текста используются две тильды . ~~Уберите это.~~
+
+
+1. Первый пункт нумерованного списка
+2. Второй пункт
+⋅⋅*Ненумерованный вложенный список.
+1. Сами числа не имеют значения, лишь бы это были цифры
+⋅⋅1. Нумерованный вложенный список
+4. И еще один пункт.
+
+⋅⋅⋅Внутри пунктов списка можно вставить абзацы с таким же отступом. Обратите внимание на пустую строку выше и на пробелы в начале (нужен по меньшей мере один, но здесь мы добавили три, чтобы также выровнять необработанный Markdown).
+
+⋅⋅⋅Чтобы вставить разрыв строки, но не начинать новый параграф, нужно добавить два пробела перед новой строкой.⋅⋅
+⋅⋅⋅Этот текст начинается с новой строки, но находится в том же абзаце.⋅⋅
+⋅⋅⋅(В некоторых обработчиках, например на Github, пробелы в начале новой строки не нужны.)
+
+* Ненумерованный список можно размечать звездочками
+- Или минусами
++ Или плюсами
+
+
+
+[Обычная ссылка в строке](https://www.google.com)
+
+[Обычная ссылка с title](https://www.google.com &quot;Сайт Google&quot;)
+
+[Ссылка со сноской][Произвольный регистронезависимый текст]
+
+[Относительная ссылка на документ](../blob/master/LICENSE)
+
+[Для ссылок со сноской можно использовать цифры][1]
+
+Или можно просто вставить ссылку в квадратные скобки [текст ссылки]
+
+Произвольный текст, после которого можно привести ссылки.
+
+[произвольный регистронезависимый текст]: https://www.mozilla.org
+[1]: http://slashdot.org
+[текст ссылки]: http://www.reddit.com
+
+
+Вот наш логотип (наведите указатель, чтобы увидеть текст заголовка):
+
+Внутри строки:  
+![alt-текст](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png &quot;Текст заголовка логотипа 1&quot;)
+
+В сноске:  
+![alt-текст][logo]
+
+[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png &quot;Текст заголовка логотипа 2&quot;
+
+
+&#x60;Код&#x60; в строке обрамляется &#x60;обратными апострофами&#x60;.
+
+
+&#x60;&#x60;&#x60;javascript
+var s = &quot;Подсветка JavaScript&quot;;
+alert(s);
+&#x60;&#x60;&#x60;
+ 
+&#x60;&#x60;&#x60;python
+s = &quot;Подсветка Python&quot;
+print s
+&#x60;&#x60;&#x60;
+ 
+&#x60;&#x60;&#x60;
+Язык не указан, синтаксис не подсвечен.
+Но мы вставим в него &lt;b&gt;тег&lt;/b&gt;.
+&#x60;&#x60;&#x60;
+
+
+Вертикальные линии обозначают столбцы.
+
+| Таблицы       | Это                | Круто |
+| ------------- |:------------------:| -----:|
+| столбец 3     | выровнен вправо выровнен вправо выровнен вправо выровнен вправо выровнен вправо выровнен вправо выровнен вправо выровнен вправо выровнен вправо выровнен вправо    | $1600 |
+| столбец 2     | выровнен по центру |   $12 |
+| зебра-строки  | прикольные         |    $1 |
+
+Внешние вертикальные линии (|) не обязательны, и они нужны только чтобы сам код Markdown выглядел красиво. Тот же код можно записать так:
+
+Markdown | не такой | красивый
+--- | --- | ---
+*Но выводится* | &#x60;так же&#x60; | **клево**
+1 | 2 | 3
+
+
+
+&gt; С помощью цитат очень удобно в письме **обозначать исходный текст**.
+&gt; Эта строка - часть той же цитаты.
+&gt;
+&gt; Цитата продолжается ппосле переноса
+&gt;&gt; Вложенная цитата
+&gt;&gt;&gt; Очень вложенная цитата
+&gt; Обычная цитата
+
+Разрыв цитаты.
+
+&gt; Это очень длинная строка, но она будет правильно процитирована даже при размещении на нескольких строках. Продолжаем писать, чтобы эта строка не вмещалась на одной строке в любом окне. Кстати, в цитаты можно *вставлять* даже **Markdown**.
+
+
+Три и более...
+
+---
+
+Дефисы
+
+***
+
+Звездочки
+
+___
+
+Подчеркивания`
+                    this.showResponse(mdTest.replace(/&#x60;/g, '`').replace(/&gt;/g, '>'))
+                });
             }
             
             setupAutoSaveListeners() {
@@ -1009,12 +1351,15 @@
                     'advancedSettings',
                     'integrationType', 
                     'modelName',
+                    'modelSelect',
                     'maxTokens',
                     'temperature',
                     'apiUrl',
                     'apiKey',
                     'systemPrompt',
                     'systemPromptSwitcher',
+                    'streamMode',
+                    'autoScroll',
                     'alwaysOnTop'
                 ];
                 
@@ -1039,11 +1384,39 @@
                             });
                         }
                         
-                        console.log(`✅ Auto-save listener added for: ${id}`);
+                        // console.log(`✅ Auto-save listener added for: ${id}`);
                     } else {
                         console.warn(`❌ Settings field not found: ${id}`);
                     }
                 });
+                
+                // Special handling for model selection to ensure both input and select work
+                this.setupModelFieldAutoSave();
+            }
+            
+            setupModelFieldAutoSave() {
+                // Additional listeners specifically for model field switching
+                const modelInput = document.getElementById('modelName');
+                const modelSelect = document.getElementById('modelSelect');
+                
+                if (modelInput) {
+                    // When user types in model input
+                    modelInput.addEventListener('input', () => {
+                        clearTimeout(this.modelSaveTimeout);
+                        this.modelSaveTimeout = setTimeout(() => {
+                            console.log('Model input changed, saving settings');
+                            this.saveSettings();
+                        }, 300);
+                    });
+                }
+                
+                if (modelSelect) {
+                    // When user selects from dropdown
+                    modelSelect.addEventListener('change', () => {
+                        console.log('Model selection changed, saving settings');
+                        this.saveSettings();
+                    });
+                }
             }
             
             setupSearchElementListeners(element) {
@@ -1087,11 +1460,11 @@
                 }
                 
                 // Switch to textarea if length > 72 and currently using input
-                if (length > 72 && !this.isTextareaMode) {
+                if (length > 64 && !this.isTextareaMode) {
                     this.switchToTextarea(value);
                 }
                 // Switch back to input if length <= 72 and currently using textarea
-                else if (length <= 72 && this.isTextareaMode) {
+                else if (length <= 64 && this.isTextareaMode) {
                     this.switchToInput(value);
                 }
                 
@@ -1195,6 +1568,7 @@
             }
             
             clearResponse() {
+                this.stopRequest()
                 // Clear the response
                 this.responseContainer.classList.remove('visible');
                 this.responseContent.innerHTML = '';
@@ -1251,7 +1625,6 @@
                     this.toggleAPIKeyVisibility();
                     this.saveSettings();
                     // Reload models for the new integration type
-                    alert(`Debug: Integration type changed, loading models for ${document.getElementById('integrationType').value}`);
                     this.loadAvailableModels(document.getElementById('integrationType').value);
                 });
             }
@@ -1259,12 +1632,30 @@
             toggleAdvancedSettings() {
                 const isAdvanced = document.getElementById('advancedSettings').checked;
                 const advancedSection = document.getElementById('advancedSettingsSection');
+                const modelName = document.getElementById('modelName');
+                const modelSelect = document.getElementById('modelSelect');
+                
+                // Preserve current model value before switching
+                let currentModelValue = '';
+                if (modelName.style.display !== 'none' && modelName.value) {
+                    currentModelValue = modelName.value;
+                } else if (modelSelect.style.display !== 'none' && modelSelect.value) {
+                    currentModelValue = modelSelect.value;
+                } else {
+                    currentModelValue = this.settings.model || '';
+                }
                 
                 // Advanced settings complement basic settings, don't replace them
                 if (isAdvanced) {
                     advancedSection.style.display = 'block';
                 } else {
                     advancedSection.style.display = 'none';
+                }
+
+                // Sync model values after switching
+                if (currentModelValue) {
+                    modelName.value = currentModelValue;
+                    modelSelect.value = currentModelValue;
                 }
 
                 this.resizeWindow(700)
@@ -1274,9 +1665,37 @@
             }
             
             updateModelField() {
+                const integrationType = document.getElementById('integrationType').value;
                 const modelName = document.getElementById('modelName');
+                const modelSelect = document.getElementById('modelSelect');
                 
-                // Save settings after updating field visibility
+                // Use input with datalist for custom integration or when models failed to load
+                const useInput = integrationType === 'custom' || !this.availableModels || this.availableModels.length === 0;
+                
+                if (useInput) {
+                    // Show input field with datalist
+                    modelName.style.display = 'block';
+                    modelSelect.style.display = 'none';
+                    
+                    // Sync value from select to input if switching
+                    if (modelSelect.value && modelSelect.value !== modelName.value) {
+                        modelName.value = modelSelect.value;
+                    }
+                } else {
+                    // Show select dropdown
+                    modelName.style.display = 'none';
+                    modelSelect.style.display = 'block';
+                    
+                    // Sync value from input to select if switching
+                    if (modelName.value && this.availableModels.includes(modelName.value)) {
+                        modelSelect.value = modelName.value;
+                    } else if (this.availableModels.length > 0 && !modelSelect.value) {
+                        // Set first model if no valid model selected
+                        modelSelect.value = this.availableModels[0];
+                    }
+                }
+                
+                // Save settings after field change
                 this.saveSettings();
             }
             
@@ -1382,8 +1801,14 @@
                     const response = await this.queryLMStudio(query);
                     if (this.abortController && !this.abortController.signal.aborted) {
                         const responseTime = Date.now() - this.startTime;
-                        await this.showResponse(response);
-                        this.showSpeed(responseTime, response.length);
+                        if (this.settings.streamMode) {
+                            // Response is already shown by streaming, just update speed indicator
+                            this.showSpeed(responseTime, response.length);
+                        } else {
+                            // Show complete response at once
+                            await this.showResponse(response);
+                            this.showSpeed(responseTime, response.length);
+                        }
                     }
                 } catch (error) {
                     if (error.name === 'AbortError') {
@@ -1442,8 +1867,21 @@
                     messages: messages,
                     temperature: this.settings.temperature,
                     max_tokens: this.settings.maxTokens,
-                    stream: false
+                    stream: this.settings.streamMode
                 };
+
+                console.log('🚀 API Request:', {
+                    url: this.settings.apiUrl,
+                    model: this.settings.model,
+                    messagesCount: messages.length,
+                    systemPrompt: messages.find(m => m.role === 'system')?.content?.substring(0, 100) + '...',
+                    userPrompt: messages.find(m => m.role === 'user')?.content?.substring(0, 100) + '...',
+                    temperature: this.settings.temperature,
+                    maxTokens: this.settings.maxTokens,
+                    stream: this.settings.streamMode
+                });
+                
+                console.log('📤 Full request body:', JSON.stringify(requestBody, null, 2));
 
                 try {
                     const response = await fetch(this.settings.apiUrl, {
@@ -1462,8 +1900,15 @@
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
 
-                    const data = await response.json();
-                    return data.choices[0].message.content;
+                    if (this.settings.streamMode) {
+                        return await this.handleStreamResponse(response);
+                    } else {
+                        const data = await response.json();
+                        const content = data.choices[0].message.content;
+                        console.log('📥 LM Studio Response (first 200 chars):', content.substring(0, 200) + '...');
+                        console.log('📥 LM Studio response contains <think>:', content.includes('<think>'));
+                        return content;
+                    }
                 } catch (error) {
                     if (error.name === 'TypeError' && error.message.includes('fetch')) {
                         throw new Error('Невозможно подключиться к LM Studio. Убедитесь, что сервер запущен');
@@ -1482,7 +1927,7 @@
                 const requestBody = {
                     model: this.settings.model,
                     messages: ollamaMessages,
-                    stream: false,
+                    stream: this.settings.streamMode,
                     options: {
                         temperature: this.settings.temperature,
                         num_predict: this.settings.maxTokens
@@ -1506,8 +1951,12 @@
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
 
-                    const data = await response.json();
-                    return data.message.content;
+                    if (this.settings.streamMode) {
+                        return await this.handleOllamaStreamResponse(response);
+                    } else {
+                        const data = await response.json();
+                        return data.message.content;
+                    }
                 } catch (error) {
                     if (error.name === 'TypeError' && error.message.includes('fetch')) {
                         throw new Error('Невозможно подключиться к Ollama. Убедитесь, что сервер запущен');
@@ -1522,7 +1971,7 @@
                     messages: messages,
                     temperature: this.settings.temperature,
                     max_tokens: this.settings.maxTokens,
-                    stream: false
+                    stream: this.settings.streamMode
                 };
 
                 const headers = {
@@ -1551,8 +2000,12 @@
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
 
-                    const data = await response.json();
-                    return data.choices[0].message.content;
+                    if (this.settings.streamMode) {
+                        return await this.handleStreamResponse(response);
+                    } else {
+                        const data = await response.json();
+                        return data.choices[0].message.content;
+                    }
                 } catch (error) {
                     if (error.name === 'TypeError' && error.message.includes('fetch')) {
                         throw new Error('Невозможно подключиться к API. Проверьте подключение');
@@ -1574,7 +2027,7 @@
                 this.isLoading = false;
                 this.loadingIndicator.style.display = 'none';
                 this.hideStopButton();
-                this.resizeWindow()
+                this.resizeWindow();
             }
 
             async showResponse(text) {
@@ -1644,6 +2097,15 @@
                 this.speedIndicator.textContent = `${seconds}s • ${speed} симв/с`;
             }
 
+            // | Таблица | С колонками |
+            // ---
+            // ___
+            // ***
+            // ~~Зачёркнутый~~
+            // > цитата
+            // [] чекбокс
+            // [ссылка](https://lmstudio.ai/docs/api)
+
             formatResponse(text) {
                 if (this.responseType === 'raw') {
                     return text
@@ -1654,30 +2116,342 @@
                     .replace(/'/g, '&#39;')
                     .replace(/\n/g, '<br>');
                 } else if (this.responseType === 'formatted') {
+                    
                     const escapeHtml = (text) => text.replace(/[&<>"']/g, match => ({
                         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
                     })[match]);
 
-                    return escapeHtml(text)
-                        .replace(/\n\n/g, '</p><p>')
-                        .replace(/\n/g, '<br>')
-                        .replace(/```(\w+)?<br>?([\s\S]*?)```/g, (match, language, code) => {
-                            const cleanCode = code.replace(/<br>/g, '\n').replace(/<\/p><p>/g, '\n\n');
+                    // Step 1: Extract and protect think blocks FIRST (before HTML escaping)
+                    const thinkBlocks = [];
+                    let thinkIndex = 0;
+                    let result = text;
+                    
+                    result = result.replace(/<think>\n?([\s\S]*?)<\/think>/g, (match, content) => {
+                        console.log('🧠 Think block detected');
+                        const placeholder = `__THINK_BLOCK_${thinkIndex}__`;
+                        const thinkId = `think-${Date.now()}-${thinkIndex}`;
+                        
+                        const thinkHTML = `
+                            <div class="think-block" style="
+                                margin: 20px 0;
+                                border: 1px solid rgba(100, 150, 200, 0.3);
+                                border-radius: 8px;
+                                background: rgba(100, 150, 200, 0.05);
+                                overflow: hidden;
+                            ">
+                                <div class="think-header" onclick="toggleThinkBlock('${thinkId}')" style="
+                                    padding: 10px 15px;
+                                    background: rgba(100, 150, 200, 0.1);
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    font-size: 13px;
+                                    color: rgba(150, 180, 220, 0.9);
+                                    font-weight: 500;
+                                    user-select: none;
+                                ">
+                                    <span id="toggle-${thinkId}" style="
+                                        display: inline-block;
+                                        margin-right: 8px;
+                                        transition: transform 0.2s;
+                                    ">▼</span>
+                                    🧠 Процесс рассуждения
+                                </div>
+                                <div id="${thinkId}" class="think-content" style="
+                                    padding: 15px;
+                                    font-size: 13px;
+                                    line-height: 1.5;
+                                    color: rgba(200, 220, 240, 0.8);
+                                    white-space: pre-wrap;
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                    border-top: 1px solid rgba(100, 150, 200, 0.2);
+                                    background: rgba(0, 0, 0, 0.1);
+                                    transition: max-height 0.3s ease, padding 0.3s ease, border-top-width 0.3s ease;
+                                    overflow: hidden;
+                                    max-height: none;
+                                ">
+                                    ${escapeHtml(content.trim())}
+                                </div>
+                            </div>
+                        `;
+                        
+                        thinkBlocks[thinkIndex] = thinkHTML;
+                        thinkIndex++;
+                        return placeholder;
+                    });
+                    
+                    // Step 2: Handle blockquotes BEFORE HTML escaping (but after code block extraction)
+                    const processBlockquotes = (text) => {
+                        const lines = text.split('\n');
+                        const result = [];
+                        let i = 0;
+                        let inCodeBlock = false;
+                        
+                        while (i < lines.length) {
+                            const line = lines[i];
                             
-                            const langLabel = language 
-                                ? `<div style="background: rgba(0,0,0,0.2); padding: 4px 8px; font-size: 12px; color: rgba(255,255,255,0.7); border-radius: 4px 4px 0 0; font-family: monospace;margin-top:16px; margin-bottom: -16px;">${language}</div>` 
-                                : '';
-                            const codeStyle = language 
-                                ? 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 0 0 4px 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;'
-                                : 'background: rgba(255,255,255,0.1); padding: 12px; border-radius: 4px; font-family: monospace; display: block; white-space: pre-wrap; margin: 16px 0;';
+                            // Check if we're entering/exiting a code block
+                            if (line.match(/^```/)) {
+                                inCodeBlock = !inCodeBlock;
+                                result.push(line);
+                                i++;
+                                continue;
+                            }
                             
-                            return `${langLabel}<code style="${codeStyle}">${cleanCode.trim()}</code>`;
-                        })
-                        .replace(/`([^`<]*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                        .replace(/^/, '<p>')
-                        .replace(/$/, '</p>');
+                            // Skip blockquote processing inside code blocks
+                            if (inCodeBlock) {
+                                result.push(line);
+                                i++;
+                                continue;
+                            }
+                            
+                            if (line.match(/^>/)) { // Changed from /^> / to /^>/ to catch empty quotes
+                                // Start of blockquote
+                                let quoteContent = [];
+                                
+                                // Collect all consecutive quote lines (including empty ones and surrounding empty lines)
+                                while (i < lines.length) {
+                                    const currentLine = lines[i];
+                                    
+                                    if (currentLine.match(/^>/)) {
+                                        // This is a quote line
+                                        if (currentLine === '>') {
+                                            // Empty quote line becomes paragraph break
+                                            quoteContent.push('');
+                                        } else if (currentLine.startsWith('> ')) {
+                                            quoteContent.push(currentLine.substring(2)); // Remove "> "
+                                        } else if (currentLine.startsWith('>')) {
+                                            quoteContent.push(currentLine.substring(1)); // Remove ">"
+                                        }
+                                        i++;
+                                    } else if (currentLine.trim() === '' && i + 1 < lines.length && lines[i + 1].match(/^>/)) {
+                                        // Empty line followed by quote line - include it in the quote as a break
+                                        quoteContent.push('');
+                                        i++;
+                                    } else {
+                                        // Not a quote line and not an empty line before quote - end the quote
+                                        break;
+                                    }
+                                }
+                                
+                                // Create placeholder for blockquote
+                                const placeholder = `__BLOCKQUOTE_${blockquoteIndex}__`;
+                                // Join content and preserve it for later markdown processing
+                                // Convert empty strings to actual double newlines for paragraph breaks
+                                let rawContent = '';
+                                for (let j = 0; j < quoteContent.length; j++) {
+                                    if (j > 0) {
+                                        if (quoteContent[j] === '' && quoteContent[j-1] !== '') {
+                                            // Empty line after content - create paragraph break
+                                            rawContent += '\n\n';
+                                        } else if (quoteContent[j] !== '' && quoteContent[j-1] === '') {
+                                            // Content after empty line - already have paragraph break
+                                            rawContent += quoteContent[j];
+                                        } else if (quoteContent[j] !== '') {
+                                            // Normal content line
+                                            rawContent += '\n' + quoteContent[j];
+                                        }
+                                        // Skip multiple consecutive empty lines
+                                    } else {
+                                        // First line
+                                        if (quoteContent[j] !== '') {
+                                            rawContent = quoteContent[j];
+                                        }
+                                    }
+                                }
+                                // Store raw content - will be processed for markdown later
+                                blockquotes[blockquoteIndex] = rawContent;
+                                blockquoteIndex++;
+                                result.push(placeholder);
+                            } else {
+                                result.push(line);
+                                i++;
+                            }
+                        }
+                        
+                        return result.join('\n');
+                    };
+                    
+                    const blockquotes = [];
+                    let blockquoteIndex = 0;
+                    result = processBlockquotes(result);
+                    
+                    // Step 3: Handle tables BEFORE HTML escaping
+                    const tables = [];
+                    let tableIndex = 0;
+                    result = result.replace(/((?:^\|.*\|$\n?)+)/gm, (match) => {
+                        const placeholder = `__TABLE_${tableIndex}__`;
+                        const rows = match.trim().split('\n');
+                        let tableHTML = '<table class="md-table">';
+                        
+                        for (let i = 0; i < rows.length; i++) {
+                            const row = rows[i];
+                            const cells = row.split('|').slice(1, -1); // Remove empty first/last elements
+                            
+                            // Skip separator rows (like |---|---|
+                            if (i === 1 && cells.every(cell => /^\s*:?-+:?\s*$/.test(cell))) {
+                                continue;
+                            }
+                            
+                            const cellTag = i === 0 || (i === 1 && rows.length === 2) ? 'th' : 'td';
+                            const cellClass = i === 0 || (i === 1 && rows.length === 2) ? 'md-th' : 'md-td';
+                            
+                            tableHTML += '<tr class="md-tr">';
+                            for (const cell of cells) {
+                                // Store cell content raw for later markdown processing
+                                const cellContent = cell.trim();
+                                tableHTML += `<${cellTag} class="${cellClass}">__CELL_CONTENT__${cellContent}__CELL_CONTENT__</${cellTag}>`;
+                            }
+                            tableHTML += '</tr>';
+                        }
+                        
+                        tableHTML += '</table>';
+                        tables[tableIndex] = `<div class="md-table-wrapper">${tableHTML}</div>`;
+                        tableIndex++;
+                        return placeholder;
+                    });
+                    
+                    // Step 4: Now escape HTML for the rest of the content
+                    result = escapeHtml(result);
+                    
+                    // Step 5: Extract and protect code blocks
+                    const codeBlocks = [];
+                    let codeIndex = 0;
+                    
+                    result = result.replace(/```(\w+)?\n?([\s\S]*?)```/g, (match, language, code) => {
+                        const placeholder = `__CODE_BLOCK_${codeIndex}__`;
+                        const langLabel = language 
+                            ? `<div class="md-code-label">${language}</div>` 
+                            : '';
+                        const codeClass = language ? 'md-code-block has-language' : 'md-code-block';
+                        
+                        codeBlocks[codeIndex] = `${langLabel}<code class="${codeClass}">${code.trim()}</code>`;
+                        codeIndex++;
+                        return placeholder;
+                    });
+                    
+                    // Step 4: Handle headers (only outside code blocks)
+                    result = result.replace(/^###### (.*$)/gm, '<h6 class="md-h6">$1</h6>');
+                    result = result.replace(/^##### (.*$)/gm, '<h5 class="md-h5">$1</h5>');
+                    result = result.replace(/^#### (.*$)/gm, '<h4 class="md-h4">$1</h4>');
+                    result = result.replace(/^### (.*$)/gm, '<h3 class="md-h3">$1</h3>');
+                    result = result.replace(/^## (.*$)/gm, '<h2 class="md-h2">$1</h2>');
+                    result = result.replace(/^# (.*$)/gm, '<h1 class="md-h1">$1</h1>');
+                    
+                    
+                    // Step 6: Handle horizontal rules
+                    result = result.replace(/^(---+|\*\*\*+|___+)$/gm, '<hr class="md-hr">');
+                    
+                    
+                    // Step 7: Handle links
+                    result = result.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a class="md-link" href="$2" target="_blank">$1</a>');
+                    
+                    // Step 8: Handle simple lists first
+                    result = result.replace(/^([ \t⋅]*)\* (.*$)/gm, (match, indent, content) => {
+                        const level = Math.floor(indent.replace(/\t/g, '  ').replace(/⋅⋅/g, '  ').replace(/⋅/g, ' ').length / 2);
+                        const padding = '  '.repeat(level);
+                        return `${padding}<li class="md-li">${content}</li>`;
+                    });
+                    result = result.replace(/^([ \t⋅]*)\d+\. (.*$)/gm, (match, indent, content) => {
+                        const level = Math.floor(indent.replace(/\t/g, '  ').replace(/⋅⋅/g, '  ').replace(/⋅/g, ' ').length / 2);
+                        const padding = '  '.repeat(level);
+                        return `${padding}<li class="md-li-ordered">${content}</li>`;
+                    });
+                    
+                    // Wrap lists in ul/ol tags
+                    result = result.replace(/(<li class="md-li"[^>]*>.*?<\/li>(?:\s*<li class="md-li"[^>]*>.*?<\/li>)*)/gm, '<ul class="md-ul">$1</ul>');
+                    result = result.replace(/(<li class="md-li-ordered"[^>]*>.*?<\/li>(?:\s*<li class="md-li-ordered"[^>]*>.*?<\/li>)*)/gm, '<ol class="md-ol">$1</ol>');
+                    
+                    // Step 9: Handle inline formatting (only outside code blocks)
+                    result = result.replace(/~~(.*?)~~/g, '<span class="md-strikethrough">$1</span>');
+                    result = result.replace(/\*\*(.*?)\*\*/g, '<strong class="md-strong">$1</strong>');
+                    result = result.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em class="md-em">$1</em>');
+                    
+                    // Step 10: Handle inline code (single backticks) - only outside code blocks
+                    result = result.replace(/`([^`]+?)`/g, '<code class="md-inline-code">$1</code>');
+                    
+                    // Step 11: Handle paragraphs and line breaks
+                    result = result.replace(/\n\n/g, '</p><p class="md-p">');
+                    result = result.replace(/\n/g, '<br>');
+                    
+                    // Step 12: Restore code blocks
+                    for (let i = 0; i < codeBlocks.length; i++) {
+                        result = result.replace(`__CODE_BLOCK_${i}__`, codeBlocks[i]);
+                    }
+                    
+                    // Step 13: Restore think blocks
+                    for (let i = 0; i < thinkBlocks.length; i++) {
+                        result = result.replace(`__THINK_BLOCK_${i}__`, thinkBlocks[i]);
+                    }
+                    
+                    // Step 14: Restore blockquotes with markdown processing
+                    for (let i = 0; i < blockquotes.length; i++) {
+                        let quoteContent = blockquotes[i];
+                        
+                        // Process markdown inside blockquote
+                        // Handle nested blockquotes (>> becomes nested)
+                        quoteContent = quoteContent.replace(/^(>+)\s*(.*$)/gm, (match, level, content) => {
+                            const depth = level.length;
+                            const padding = '  '.repeat(depth - 1);
+                            return `${padding}<blockquote class="md-blockquote">${content}</blockquote>`;
+                        });
+                        
+                        // Process inline formatting
+                        quoteContent = quoteContent.replace(/~~(.*?)~~/g, '<span class="md-strikethrough">$1</span>');
+                        quoteContent = quoteContent.replace(/\*\*(.*?)\*\*/g, '<strong class="md-strong">$1</strong>');
+                        quoteContent = quoteContent.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em class="md-em">$1</em>');
+                        quoteContent = quoteContent.replace(/`([^`]+?)`/g, '<code class="md-inline-code">$1</code>');
+                        quoteContent = quoteContent.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a class="md-link" href="$2" target="_blank">$1</a>');
+                        
+                        // Handle paragraph breaks - empty lines become paragraph separators
+                        // First convert empty lines (multiple \n) to paragraph breaks
+                        quoteContent = quoteContent.replace(/\n\n+/g, '</p><p class="md-p">');
+                        // Then convert single newlines to <br>
+                        quoteContent = quoteContent.replace(/\n/g, '<br>');
+                        
+                        // Wrap in paragraphs if needed
+                        if (quoteContent && !quoteContent.startsWith('<')) {
+                            quoteContent = `<p class="md-p">${quoteContent}</p>`;
+                        }
+                        
+                        const processedQuote = `<blockquote class="md-blockquote">${quoteContent}</blockquote>`;
+                        result = result.replace(`__BLOCKQUOTE_${i}__`, processedQuote);
+                    }
+                    
+                    // Step 15: Restore tables with markdown processing in cells
+                    for (let i = 0; i < tables.length; i++) {
+                        let tableHTML = tables[i];
+                        
+                        // Process markdown inside each table cell
+                        tableHTML = tableHTML.replace(/__CELL_CONTENT__(.*?)__CELL_CONTENT__/g, (match, cellContent) => {
+                            // Process inline markdown in cell content
+                            let processedContent = cellContent;
+                            
+                            // Process inline formatting
+                            processedContent = processedContent.replace(/~~(.*?)~~/g, '<span class="md-strikethrough">$1</span>');
+                            processedContent = processedContent.replace(/\*\*(.*?)\*\*/g, '<strong class="md-strong">$1</strong>');
+                            processedContent = processedContent.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '<em class="md-em">$1</em>');
+                            processedContent = processedContent.replace(/`([^`]+?)`/g, '<code class="md-inline-code">$1</code>');
+                            processedContent = processedContent.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a class="md-link" href="$2" target="_blank">$1</a>');
+                            
+                            // Handle blockquotes in cells
+                            processedContent = processedContent.replace(/^> (.*)$/gm, '<blockquote class="md-blockquote">$1</blockquote>');
+                            
+                            // Escape HTML for safety
+                            processedContent = escapeHtml(processedContent);
+                            
+                            return processedContent;
+                        });
+                        
+                        result = result.replace(`__TABLE_${i}__`, tableHTML);
+                    }
+                    
+                    // Wrap in paragraph tags (avoid wrapping code blocks)
+                    if (!result.startsWith('<') && !result.includes('<h') && !result.includes('<ul') && !result.includes('<ol') && !result.includes('<table') && !result.includes('<blockquote')) {
+                        result = '<p class="md-p">' + result + '</p>';
+                    }
+                    
+                    return result;
                 }
                 
             }
@@ -1691,12 +2465,356 @@
                     this.formatSwitcher.textContent = 'MD';
                 }
 
-                this.showResponse(this.rawResponse);
+                this.showResponseInstant(this.rawResponse);
+            }
+            
+            async handleStreamResponse(response) {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                let fullResponse = '';
+                
+                // Simple approach: wait 2 seconds, then start streaming
+                const streamingPromise = new Promise(resolve => {
+                    setTimeout(() => {
+                        // Start streaming UI after 2 seconds
+                        if (this.abortController && !this.abortController.signal.aborted) {
+                            this.startStreaming();
+                        }
+                        resolve();
+                    }, 2000);
+                });
+                
+                try {
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        
+                        if (done) {
+                            console.log('📖 Stream reading completed');
+                            break;
+                        }
+                        if (this.abortController?.signal.aborted) {
+                            console.log('🛑 Stream aborted');
+                            break;
+                        }
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop() || '';
+                        
+                        for (const line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const data = line.slice(6).trim();
+                                if (data === '[DONE]') {
+                                    console.log('✅ Received [DONE] signal');
+                                    continue;
+                                }
+                                
+                                if (data === '') {
+                                    console.log('⚪ Empty data chunk, skipping');
+                                    continue;
+                                }
+                                
+                                // Debug logging BEFORE parsing
+                                console.log('🔍 About to parse data:', {
+                                    length: data.length,
+                                    firstChars: data.substring(0, 50),
+                                    lastChars: data.substring(Math.max(0, data.length - 20)),
+                                    fullData: data
+                                });
+                                
+                                try {
+                                    const parsed = JSON.parse(data);
+                                    const delta = parsed.choices?.[0]?.delta?.content;
+                                    if (delta) {
+                                        console.log('📝 Delta chunk:', JSON.stringify(delta));
+                                        if (delta.includes('<think>') || delta.includes('</think>')) {
+                                            console.log('🧠 THINK TAG DETECTED in chunk:', delta);
+                                        }
+                                        fullResponse += delta;
+                                        console.log('📦 Current fullResponse length:', fullResponse.length, 'contains <think>:', fullResponse.includes('<think>'));
+                                        
+                                        // Update UI if streaming has started
+                                        if (this.responseContainer.classList.contains('visible')) {
+                                            this.updateStreamingResponse(fullResponse);
+                                        }
+                                    }
+                                } catch (e) {
+                                    console.warn('Failed to parse SSE data. Error:', e.message, 'Data:', data);
+                                    console.warn('Data type:', typeof data, 'Data length:', data.length);
+                                    // Try to show problematic characters
+                                    const problematicChars = [];
+                                    for (let i = 0; i < data.length; i++) {
+                                        const char = data[i];
+                                        const code = data.charCodeAt(i);
+                                        if (code < 32 || code > 126) {
+                                            problematicChars.push(`pos ${i}: '${char}' (${code})`);
+                                        }
+                                    }
+                                    if (problematicChars.length > 0) {
+                                        console.warn('Non-printable characters found:', problematicChars);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } finally {
+                    reader.releaseLock();
+                }
+                
+                // Wait for streaming UI to start if it hasn't already
+                await streamingPromise;
+                
+                // Show final response
+                if (fullResponse && this.responseContainer.classList.contains('visible')) {
+                    console.log('🎯 Showing final response, length:', fullResponse.length);
+                    this.updateStreamingResponse(fullResponse);
+                } else if (fullResponse) {
+                    // Starting streaming UI for final response
+                    this.startStreaming();
+                    this.updateStreamingResponse(fullResponse);
+                }
+                
+                console.log('📥 Stream Response (first 200 chars):', fullResponse.substring(0, 200) + '...');
+                console.log('📥 Stream response contains <think>:', fullResponse.includes('<think>'));
+                console.log('✅ Stream handling completed, total response length:', fullResponse.length);
+                
+                // Show clear button after streaming is complete
+                setTimeout(() => {
+                    this.showClearButton();
+                }, 300);
+                
+                return fullResponse;
+            }
+            
+            async handleOllamaStreamResponse(response) {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+                
+                // Simple approach: wait 2 seconds, then start streaming
+                const streamingPromise = new Promise(resolve => {
+                    setTimeout(() => {
+                        // Start Ollama streaming UI after 2 seconds
+                        if (this.abortController && !this.abortController.signal.aborted) {
+                            this.startStreaming();
+                        }
+                        resolve();
+                    }, 2000);
+                });
+                
+                try {
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        
+                        if (done) {
+                            // Stream reading completed
+                            break;
+                        }
+                        if (this.abortController?.signal.aborted) {
+                            // Stream aborted
+                            break;
+                        }
+                        
+                        const chunk = decoder.decode(value, { stream: true });
+                        const lines = chunk.split('\n').filter(line => line.trim());
+                        
+                        for (const line of lines) {
+                            try {
+                                const parsed = JSON.parse(line);
+                                if (parsed.message?.content) {
+                                    console.log('📝 Received Ollama text:', parsed.message.content.substring(0, 50) + '...');
+                                    fullResponse += parsed.message.content;
+                                    
+                                    // Update UI if streaming has started
+                                    if (this.responseContainer.classList.contains('visible')) {
+                                        this.updateStreamingResponse(fullResponse);
+                                    }
+                                }
+                            } catch (e) {
+                                console.warn('Failed to parse Ollama response:', line);
+                            }
+                        }
+                    }
+                } finally {
+                    reader.releaseLock();
+                }
+                
+                // Wait for streaming UI to start if it hasn't already
+                await streamingPromise;
+                
+                // Show final response
+                if (fullResponse && this.responseContainer.classList.contains('visible')) {
+                    console.log('🎯 Showing final Ollama response, length:', fullResponse.length);
+                    this.updateStreamingResponse(fullResponse);
+                } else if (fullResponse) {
+                    // Starting streaming UI for final response
+                    this.startStreaming();
+                    this.updateStreamingResponse(fullResponse);
+                }
+                
+                // Stream handling completed
+                
+                // Show clear button after streaming is complete
+                setTimeout(() => {
+                    this.showClearButton();
+                }, 300);
+                
+                return fullResponse;
+            }
+            
+            startStreaming() {
+                console.log('🚀 Starting streaming mode...');
+                this.hideLoading();
+                
+                if (this.settingsVisible) {
+                    this.toggleSettings();
+                }
+                
+                // Initialize empty response
+                this.rawResponse = '';
+                this.response = '';
+                this.responseContent.innerHTML = '';
+                console.log('✅ Streaming mode started, UI initialized');
+                
+                this.responseContainer.classList.add('visible');
+                
+                // Initialize auto-scroll tracking
+                this.shouldAutoScroll = true; // Reset to enabled for new stream
+                this.lastScrollTop = 0; // Reset scroll tracking
+                this.isUserScrolling = null; // Will be set by setupAutoScrollTracking
+                setTimeout(() => {
+                    this.setupAutoScrollTracking();
+                }, 100); // Small delay to ensure DOM is ready
+                
+                // Show stop button during streaming (hideLoading() hides it, so show it again)
+                this.showStopButton();
+                
+                // Reset animation
+                this.responseContent.style.animation = 'none';
+                setTimeout(() => {
+                    this.responseContent.style.animation = 'responseAppear 0.5s ease forwards';
+                    this.resizeWindow(700);
+                    setTimeout(() => {
+                        this.resizeWindow();
+                    }, 550);
+                }, 10);
+                
+                // Keep click-through disabled during streaming
+                this.invokeCommand('set_window_click_through', { enabled: false });
+            }
+            
+            // Auto-scroll helper functions
+            scrollToBottom() {
+                const container = this.responseContainer;
+                if (container) {
+                    this.lastScrollTop = container.scrollHeight; // Update before scrolling
+                    container.scrollTop = container.scrollHeight;
+                }
+            }
+            
+            setupAutoScrollTracking() {
+                const container = this.responseContainer;
+                if (!container) return;
+                
+                // Auto-scroll tracking setup
+                
+                let scrollTimeout = null;
+                let isUserScrolling = false;
+                
+                // Track user scroll events
+                container.addEventListener('scroll', () => {
+                    const currentScrollTop = container.scrollTop;
+                    const maxScroll = container.scrollHeight - container.clientHeight;
+                    const isAtBottom = currentScrollTop >= maxScroll - 10; // 10px threshold
+                    
+                    // Mark as user scrolling (vs auto-scroll)
+                    isUserScrolling = true;
+                    
+                    // Clear existing timeout
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    
+                    // Check if user scrolled up from bottom
+                    if (!isAtBottom && this.shouldAutoScroll) {
+                        this.shouldAutoScroll = false;
+                    }
+                    
+                    // Check if user scrolled back to bottom
+                    if (isAtBottom && !this.shouldAutoScroll) {
+                        this.shouldAutoScroll = true;
+                    }
+                    
+                    // Reset user scrolling flag after a delay
+                    scrollTimeout = setTimeout(() => {
+                        isUserScrolling = false;
+                    }, 150);
+                });
+                
+                // Store reference to check if scrolling is from user
+                this.isUserScrolling = () => isUserScrolling;
+            }
+            
+            updateStreamingResponse(text) {
+                console.log('🎯 updateStreamingResponse called, text length:', text.length, 'contains <think>:', text.includes('<think>'));
+                this.rawResponse = text;
+                this.response = this.formatResponse(text);
+                console.log('✨ After formatResponse, formatted length:', this.response.length, 'contains think-block:', this.response.includes('think-block'));
+                this.responseContent.innerHTML = this.response;
+                
+                // Auto-scroll if enabled and not interfering with user scrolling
+                if (this.settings.streamMode && this.settings.autoScroll && this.shouldAutoScroll) {
+                    // Don't auto-scroll if user is currently scrolling
+                    if (!this.isUserScrolling || !this.isUserScrolling()) {
+                        setTimeout(() => {
+                            // Double-check that user hasn't started scrolling during timeout
+                            if (this.shouldAutoScroll && (!this.isUserScrolling || !this.isUserScrolling())) {
+                                this.scrollToBottom();
+                            }
+                        }, 10); // Small delay to ensure DOM is updated
+                    }
+                }
+                
+                // Auto-resize as content grows
+                this.resizeWindow();
+            }
+            
+            async showResponseInstant(text) {
+                this.hideLoading();
+
+                if (this.settingsVisible) {
+                    await this.toggleSettings();
+                }
+                
+                this.rawResponse = text;
+                this.response = this.formatResponse(text);
+                this.responseContent.innerHTML = this.response;
+                
+                this.responseContainer.classList.add('visible');
+                
+                // Show clear button after response is shown
+                setTimeout(() => {
+                    this.showClearButton();
+                }, 300);
+                
+                // Reset animation
+                this.responseContent.style.animation = 'none';
+                setTimeout(() => {
+                    this.responseContent.style.animation = 'responseAppear 0.5s ease forwards';
+                    this.resizeWindow(700);
+                    setTimeout(() => {
+                        this.resizeWindow();
+                    }, 550);
+                }, 10);
+
+                // Auto-resize window and keep click-through disabled
+                await this.invokeCommand('set_window_click_through', { enabled: false });
             }
             
             async loadAvailableModels(integrationType) {
-                const modelSelect = document.getElementById('modelName');
+                const datalist = document.getElementById('models');
+                const modelSelect = document.getElementById('modelSelect');
                 
+                datalist.innerHTML = ''; // Clear existing options
                 modelSelect.innerHTML = ''; // Clear existing options
                 this.availableModels = [];
                 
@@ -1715,37 +2833,30 @@
                             // OpenAI models are predefined
                             models = ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo', 'gpt-3.5-turbo-16k'];
                             break;
+                        case 'custom':
                         default:
-                            console.log('⚠️ No model loading for custom integration');
+                            console.log('⚠️ No model loading for custom integration - using input field');
+                            this.availableModels = [];
+                            this.updateModelField(); // Switch to input field
                             return;
                     }
                     
                     if (integrationType === 'openai') {
                         this.availableModels = models;
                     } else {
-                        try {
-                            console.log(`🔄 Fetching models from ${integrationType} at ${modelsUrl}`);
-                            const response = await fetch(modelsUrl);
-                            if (response.ok) {
-                                const data = await response.json();
-                                console.log(`📋 Raw ${integrationType} response:`, data);
-                                
-                                if (integrationType === 'lmstudio') {
-                                    console.log('✅ LM Studio connected. Available models:', data.data?.length || 0);
-                                    this.availableModels = data.data?.map(model => model.id) || [];
-                                } else if (integrationType === 'ollama') {
-                                    console.log('✅ Ollama connected. Available models:', data.models?.length || 0);
-                                    this.availableModels = data.models?.map(model => model.name) || [];
-                                }
-                            } else {
-                                console.log(`⚠️ ${integrationType} unavailable (HTTP ${response.status})`);
-                                console.log(`Response text: ${await response.text()}`);
-                                return;
+                        const response = await fetch(modelsUrl);
+                        if (response.ok) {
+                            const data = await response.json();
+                            
+                            if (integrationType === 'lmstudio') {
+                                console.log('✅ LM Studio connected. Available models:', data.data?.length || 0);
+                                this.availableModels = data.data?.map(model => model.id) || [];
+                            } else if (integrationType === 'ollama') {
+                                console.log('✅ Ollama connected. Available models:', data.models?.length || 0);
+                                this.availableModels = data.models?.map(model => model.name) || [];
                             }
-                        } catch (fetchError) {
-                            console.error(`❌ Network error fetching ${integrationType} models:`, fetchError);
-                            console.log('This might be a CORS issue in production build');
-                            alert(`Error loading ${integrationType} models: ${fetchError.message}`);
+                        } else {
+                            console.log(`⚠️ ${integrationType} unavailable (HTTP ${response.status})`);
                             return;
                         }
                     }
@@ -1754,6 +2865,7 @@
                     this.availableModels.forEach(model => {
                         const option = document.createElement('option');
                         option.value = model;
+                        datalist.appendChild(option);
                     });
                     
                     // Populate select for basic mode
@@ -1767,13 +2879,14 @@
                     // Set current model if it exists in the list
                     if (this.availableModels.includes(this.settings.model)) {
                         modelSelect.value = this.settings.model;
+                        document.getElementById('modelName').value = this.settings.model;
                     } else if (this.availableModels.length > 0) {
                         // If current model is not available, use the first one
                         modelSelect.value = this.availableModels[0];
                         document.getElementById('modelName').value = this.availableModels[0];
                     }
                     
-                    this.updateModelField(); // Update field visibility
+                    this.updateModelField(); // Update field visibility and save settings
                     console.log('✅ Models loaded:', this.availableModels.length);
                     
                 } catch (error) {
@@ -1833,7 +2946,7 @@
                         width: 660, 
                         height: Math.min(height, 900) 
                     });
-                    console.log('✅ Window resized to:', height);
+                    // console.log('✅ Window resized to:', height);
                 } catch (error) {
                     console.log('Resize error:', error);
                 }
@@ -1989,7 +3102,7 @@
                     setTimeout(() => {
                         if (this.currentSearchElement && !this.settingsVisible) {
                             this.currentSearchElement.focus();
-                            console.log(`🎯 Search element focus attempt at ${delay}ms`);
+                            // console.log(`🎯 Search element focus attempt at ${delay}ms`);
                         }
                     }, delay);
                 });
@@ -2127,6 +3240,47 @@
                 console.log(`${key}:`, typeof window[key], window[key]);
             });
         }, 2000);
+
+        // Global function for toggling think blocks
+        window.toggleThinkBlock = function(thinkId) {
+            const content = document.getElementById(thinkId);
+            const toggle = document.getElementById(`toggle-${thinkId}`);
+            
+            if (!content || !toggle) return;
+            
+            const isCollapsed = content.style.maxHeight === '0px';
+            
+            if (isCollapsed) {
+                // Expand content
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.style.padding = '15px';
+                content.style.borderTopWidth = '1px';
+                toggle.style.transform = 'rotate(0deg)';
+                toggle.textContent = '▼';
+                // Think block expanded
+                
+                // Reset maxHeight after animation to allow dynamic content
+                setTimeout(() => {
+                    content.style.maxHeight = 'none';
+                }, 300);
+            } else {
+                // Collapse content
+                content.style.maxHeight = content.scrollHeight + 'px';
+                // Force reflow
+                content.offsetHeight;
+                content.style.maxHeight = '0px';
+                content.style.padding = '0 15px';
+                content.style.borderTopWidth = '0px';
+                toggle.style.transform = 'rotate(-90deg)';
+                toggle.textContent = '▶';
+                // Think block collapsed
+            }
+            
+            // Auto-resize window after animation
+            setTimeout(() => {
+                window.spotlightApp?.resizeWindow();
+            }, 350);
+        };
     </script>
 </body>
 </html>

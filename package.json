@@ -1,6 +1,6 @@
 {
   "name": "spotlight-ai",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "AI Spotlight for Windows",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "dev": "tauri dev",
-    "build": "tauri build"
+    "build": "tauri build",
+    "sync-version": "node -e \"const pkg=require('./package.json'); const fs=require('fs'); const tauri=JSON.parse(fs.readFileSync('./src-tauri/tauri.conf.json')); tauri.package.version=pkg.version; fs.writeFileSync('./src-tauri/tauri.conf.json', JSON.stringify(tauri,null,2));\""
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.5.0"
